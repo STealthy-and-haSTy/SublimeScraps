@@ -16,17 +16,24 @@ means a final "production ready" version.
 You can use the code here as an example for how aspects of Sublime work or as a
 basis for something more useful.
 
-Briefly, the code here is:
+### Usage
 
- * **minimap_toggler.py** is a simple example of having the sublime text minimap
-   turn itself off only for files of a certain syntax. There is no setting that
-   controls this, and the minimap toggles on and off on a window-by-window basis
-   (not view-by-view), so some chicanery is needed to pull this off.
+Generally, each python file is a self contained example of the required plugin
+code. Some of them may require extra files to be placed somewhere. See inside
+of each file for more information on full usage.
 
- * **open_found_files.py** is an example of collecting all of the files that had
-   a match as a part of a Find in Files operation and opening them all at once.
-   Normally in order to do this you would have to scroll through and click on
-   each file to open it.
+### What they does
+
+ * **minimap_toggler.py** is a simple example of having the sublime text
+   minimap turn itself off only for files of a certain syntax. There is no
+   setting that controls this, and the minimap toggles on and off on a
+   window-by-window basis (not view-by-view), so some chicanery is needed to
+   pull this off.
+
+ * **open_found_files.py** is an example of collecting all of the files that
+   had a match as a part of a Find in Files operation and opening them all at
+   once. Normally in order to do this you would have to scroll through and
+   click on each file to open it.
 
    The command presented should be bound to a key and can optionally open a new
    window and open the files there, instead of opening them in the current
@@ -40,11 +47,11 @@ Briefly, the code here is:
    status line, although this could easily be modified to make it the last item
    as well.
 
- * **shebanger.py** is a command that is meant to be used as the `target` inside
-   of a build system. It's a proof of concept that is rather naive, but the
-   idea is that it would run the current python file using the interpreter that
-   is in the shebang line of the current file instead of the version in the
-   build system.
+ * **shebanger.py** is a command that is meant to be used as the `target`
+   inside of a build system. It's a proof of concept that is rather naive, but
+   the idea is that it would run the current python file using the interpreter
+   that is in the shebang line of the current file instead of the version in
+   the build system.
 
    This is naive for a few reasons, but is a good proof of concept for how
    one would bridge together a standard Sublime build system with some custom

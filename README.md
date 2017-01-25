@@ -7,7 +7,7 @@ say, I'm a rebel.
 
 Some of the contents are are customizations that I use myself that others may
 find useful, possibly as a jumping off point for their own user specific
-cusomizations.
+customizations.
 
 Others are small snippets of code that I've worked up in response to other
 users questions (e.g. on the Sublime forum or Stack Overflow) that I have been
@@ -34,7 +34,7 @@ The layout of the files here is:
    around with code samples. See the README in there for more information.
 
  * **config_popup** is another simple plugin I made to make my life easier. It
-   opens a small popup with configuration related entries only, including one
+   opens a small pop-up with configuration related entries only, including one
    for editing project specific settings. Handier than using the menu as not
    all of the options listed are in the command palette by default.
 
