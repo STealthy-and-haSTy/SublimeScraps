@@ -1,0 +1,44 @@
+// In the interests of not having three almost-but-not-quite identical versions
+// of this file, this is a representative version of my custom key bindings
+// files.
+//
+// Copy the bindings to your custom bindings for your platform of choice and
+// modify the bound keys as appropriate.
+[
+    //--- Git Specific Key Bindings (requires Git package)
+    //
+    // Display the command palette pre-filtered to show only git commands.
+    {"keys": ["ctrl+alt+g"], "command": "show_overlay", "args": {
+        "overlay": "command_palette",
+        "text" : "Git: "
+    }},
+
+    // Common git operations; Show the popup for selecting files to add to the
+    // current commit and execute the commit operation itself.
+    {"keys": ["ctrl+alt+a"], "command": "git_add_choice"},
+    {"keys": ["ctrl+alt+c"], "command": "git_commit"},
+
+    //-- Sublimerge Specific Key Bindings (requires Sublimerge 3)
+    //
+    // Sublimerge 3 combines user macros with its own macros and allows you to
+    // run them by index. This executes the 7th macro (may need to be updated),
+    // which is a custom macro that immediately opens a diff view for the
+    // current file's uncommited changes (if any).
+    {"keys": ["ctrl+alt+shift+d"], "command": "sublimerge_macro", "args": {"run": 7}},
+
+    //-- Comment Specific Key Bindings
+    // Pressing enter while inside a Lua comment extends the comment onto the
+    // next line.
+    {"keys": ["enter"], "command": "insert", "args": {"characters": "\n-- "}, "context": [
+        {"key": "selector", "operator": "equal", "operand": "comment.line.double-dash.lua"}
+    ]},
+
+    // Run custom line comment macro in response to the default key press for
+    // this operation, but only when there is no selection.
+    //
+    // This mimics JetBrains behaviour for this operation, which advances the
+    // cursor for every line comment unless text is selected.
+    {"keys": ["ctrl+/"], "command": "run_macro_file", "args": {"file": "res://Packages/User/macros/comment_line.sublime-macro"},
+        "context": [{ "key": "selection_empty", "operator": "equal", "operand": "true", "match_all": true }
+    ]}
+]

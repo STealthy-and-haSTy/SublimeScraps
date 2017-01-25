@@ -1,0 +1,66 @@
+// This is a custom macro for use with Sublimerge 3, and requires a version of
+// Sublimerge 3 released on or after January 24th, 2017 to operate.
+//
+// This is similar to the built in Sublimerge Macro that allows you to select
+// from the list of files with uncommited changes except that it operates
+// directly on the current file, bypassing the selection process entirely.
+{
+    "macros_user": [
+        {
+            "name": "Show Uncommited Changes (Current File)",
+            "requires": "git",
+
+            "steps":
+            [
+                // Query git to see if this file is actually modified or not.
+                {
+                    "capture":
+                    {
+                        "name": "modified_file",
+                        "execute":
+                        {
+                            "command": "${git} status --porcelain --untracked-files=no \"${CURRENT:FILE|repopath}\"",
+                            "directory": "${CURRENT:REPO_ROOT}",
+                        },
+                        "regexp": "^\\s+M\\s+\"?(.*?)\"?$",
+                        "value": "@1",
+                        "empty_message": "Current file is untracked or has no changes"
+                    }
+                },
+
+                // Create the full filenames for both sides of the diff
+                {
+                    "define":
+                    {
+                        "right_file": "${CURRENT:REPO_ROOT}/${modified_file}",
+                        "left_file": "${ENV:TEMP_DIR}/${modified_file|basename}@HEAD"
+                    }
+                },
+
+                // Perform the compare against the current HEAD version.
+                {
+                    "compare":
+                    {
+                        "execute":
+                        {
+                            "command": "${git} show HEAD:\"./${modified_file}\" > \"${left_file}\"",
+                            "directory": "${CURRENT:REPO_ROOT}"
+                        },
+
+                        "left":
+                        {
+                            "file": "${left_file}",
+                            "temporary": true
+                        },
+
+                        "right":
+                        {
+                            "file": "${right_file}",
+                            "temporary": false
+                        }
+                    }
+                }
+            ]
+        },
+    ]
+}

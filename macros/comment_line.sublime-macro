@@ -1,0 +1,20 @@
+// This is a very simplistic macro which can be used to toggle a line comment on
+// the current line, and then advance the cursor down to the next line.
+//
+// I got used to this particular flow while working with JetBrains tools, and is
+// one of the few things I missed when I migrated away in favor of Sublime Text.
+//
+// Fortunately, this is easily remedied in sublime.
+//
+// There is an associated key binding in the customizations folder that binds
+// this to the default key for toggling a line comment.
+[
+	{
+		"command": "toggle_comment",
+		"args": {"block": false }
+	},
+	{
+		"command": "move",
+		"args": {"by": "lines", "forward": true }
+	}
+]

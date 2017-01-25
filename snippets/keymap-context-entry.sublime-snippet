@@ -1,0 +1,9 @@
+<!-- For adding an extra context to a key binding. -->
+<snippet>
+    <content><![CDATA[
+{ "key": "${1:selector}", "operator": "${2:equal}", "operand": "${3:text.plain}", "match_all": true },
+]]></content>
+    <tabTrigger>context</tabTrigger>
+    <scope>source.json meta.structure.array.json</scope>
+    <description>key binding context</description>
+</snippet>

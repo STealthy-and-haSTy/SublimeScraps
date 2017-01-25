@@ -1,0 +1,10 @@
+<!-- Simple snippet for inserting a basic key binding. Should be enhanced to
+     have an optional arguments section, but I'm lazy. -->
+<snippet>
+    <content><![CDATA[
+{"keys": ["${1:ctrl+d}"], "command": "${2:insert}"},
+]]></content>
+    <tabTrigger>key</tabTrigger>
+    <scope>source.json meta.structure.array.json</scope>
+    <description>key binding</description>
+</snippet>

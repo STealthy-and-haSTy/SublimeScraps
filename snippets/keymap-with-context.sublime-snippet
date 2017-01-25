@@ -1,0 +1,12 @@
+<!-- As keymap.sublime-snippet, but this version also includes a single context
+     because I am forever forgetting exactly how that's supposed to look. -->
+<snippet>
+    <content><![CDATA[
+{"keys": ["${1:ctrl+d}"], "command": "${2:insert}", "context": [
+    { "key": "${3:selector}", "operator": "${4:equal}", "operand": "${5:text.plain}", "match_all": true },
+]},
+]]></content>
+    <tabTrigger>keycon</tabTrigger>
+    <scope>source.json meta.structure.array.json</scope>
+    <description>key binding w/context</description>
+</snippet>

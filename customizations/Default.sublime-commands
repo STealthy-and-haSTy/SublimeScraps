@@ -1,0 +1,11 @@
+[
+    // When developing/researching/playing around I often need to hit one of
+    // these items, but they are omitted from the command palette by default and
+    // using that instead of key shortcuts to navigate the menu is much
+    // preferable.
+    //
+    // These are snaked directly from Packages\Default\Main.sublime-menu.
+    { "caption": "Developer: New Plugin...",  "command": "new_plugin"},
+    { "caption": "Developer: New Snippet...", "command": "new_snippet"},
+    { "caption": "Developer: New Syntax...",  "command": "new_syntax"},
+]

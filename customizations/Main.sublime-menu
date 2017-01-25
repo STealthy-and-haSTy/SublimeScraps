@@ -1,0 +1,48 @@
+// As I often refer to various Documentation pages (both official and
+// Unofficial), I add this file to my User package to add extra documentation
+// links to the help menu.
+//
+// This could be more complete, but I tend to only add items as and when I need
+// them in order to avoid cruft.
+[
+   {
+        "id": "help",
+        "children":
+        [
+            { "caption": "-" },
+
+            {
+                "caption": "Official Documentation",
+                "children":
+                [
+                    { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/"},                        "caption": "Index" },
+                    { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/api_reference.html"},      "caption": "API Reference" },
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/reference/api.html"}, "caption": "API Reference (Unofficial Undocumented Bits)" },
+                    { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/settings.html"},           "caption": "Settings Information" },
+                    { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/projects.html"},           "caption": "Project Structure" },
+                    { "command": "open_url", "args": {"url": "http://www.sublimetext.com/docs/3/packages.html"},           "caption": "Package Layout" },
+
+                ]
+            },
+
+            {
+                "caption": "Unofficial Documentation",
+                "children":
+                [
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/"},                                                                "caption": "Index" },
+
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/reference/commands.html"},                                         "caption": "Command List" },
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/file_processing/build_systems.html"},                              "caption": "Build Systems" },
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/file_management/file_management.html#the-sublime-project-format"}, "caption": "Project Structure" },
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/file_management/file_management.html#workspaces"},                 "caption": "Workspaces" },
+                    { "command": "open_url", "args": {"url": "http://docs.sublimetext.info/en/latest/customization/settings.html"},                                     "caption": "Settings" },
+                ]
+            },
+
+            { "caption": "-" },
+
+            { "command": "open_url", "args": {"url": "http://www.boost.org/doc/libs/1_61_0/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html"}, "caption": "Boost PCRE RegEx Docs" },
+            { "command": "open_url", "args": {"url": "http://www.boost.org/doc/libs/1_44_0/libs/regex/doc/html/boost_regex/format/perl_format.html"}, "caption": "Boost Format String Docs" }
+        ]
+    }
+]

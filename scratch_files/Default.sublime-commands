@@ -1,0 +1,13 @@
+[
+    // The list of scratch buffers I often use.
+    //
+    // Note that the option for TypeScript requires a TypeScript plugin to be
+    // installed; as of build 3126, Sublime doesn't ship with support for this
+    // language.
+    { "caption": "Scratch Buffer: Plain Text", "command": "scratch_buffer"},
+    { "caption": "Scratch Buffer: HTML",       "command": "scratch_buffer", "args": {"syntax": "Packages/HTML/HTML.sublime-syntax"}},
+    { "caption": "Scratch Buffer: JavaScript", "command": "scratch_buffer", "args": {"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"}},
+    { "caption": "Scratch Buffer: JSON",       "command": "scratch_buffer", "args": {"syntax": "Packages/JavaScript/JSON.sublime-syntax"}},
+    { "caption": "Scratch Buffer: Python",     "command": "scratch_buffer", "args": {"syntax": "Packages/Python/Python.sublime-syntax"}},
+    { "caption": "Scratch Buffer: TypeScript", "command": "scratch_buffer", "args": {"syntax": "Packages/TypeScript/TypeScript.tmLanguage"}}
+]
