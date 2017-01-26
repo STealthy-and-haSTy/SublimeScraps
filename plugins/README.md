@@ -70,3 +70,9 @@ of each file for more information on full usage.
 
    Turns out that build variable substitutions are not applied in most standard
    commands. This shows how one could go about making such a command.
+
+ * **find_results_copy.py** is an example of seamlessly expanding the
+   capabilities of Sublime to make it work the way you want. This provides a
+   command that allows you to copy whole result lines from a Find in Files
+   result buffer and have the line numbers that precede the text be removed
+   automatically
