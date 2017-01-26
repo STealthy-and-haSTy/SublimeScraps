@@ -23,6 +23,9 @@ def show_project(view):
     If a project file is in use, add the name of it to the start of the status
     bar.
     """
+    if view.window() is None:
+        return
+
     project_file = view.window ().project_file_name ()
     if project_file is not None:
         project_name = os.path.splitext (os.path.basename (project_file))[0]
