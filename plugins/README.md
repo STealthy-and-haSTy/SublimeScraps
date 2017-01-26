@@ -47,6 +47,10 @@ of each file for more information on full usage.
    status line, although this could easily be modified to make it the last item
    as well.
 
+ * **set_status.py** is a small command that just adds a bit of text temporarily
+   to the status bar. This allows you to create a macro that displays text in
+   the status bar when you execute it.
+
  * **shebanger.py** is a command that is meant to be used as the `target`
    inside of a build system. It's a proof of concept that is rather naive, but
    the idea is that it would run the current python file using the interpreter
