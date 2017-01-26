@@ -3,6 +3,16 @@ import sublime, sublime_plugin
 # Related reading:
 #     https://forum.sublimetext.com/t/disable-sublime-minimap-for-a-specific-syntax/21458
 
+# The idea of this plugin is to provide a setting that allows for the minimap to
+# be hidden for certain file types. There is no built in setting for this as the
+# minimap being displayed or not is specific to a window and not to a file, so
+# it's either on or off for all files in the window.
+#
+# In order to use this, you need to open the syntax specific settings for the
+# file type that you would like to hide the minimap for and add the following
+# setting:
+#    "hide_minimap": true
+
 
 # Sublime versions 3116 and higher have new functionality for determining
 # if the minimap is visible or not without having to resort to some hackery.

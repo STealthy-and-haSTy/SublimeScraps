@@ -3,6 +3,38 @@ import sublime, sublime_plugin
 # Related reading:
 #     http://stackoverflow.com/questions/39606221/how-to-create-sublime-text-3-build-system-which-reads-shebang
 
+# Normally in a Sublime build system you need to specify the program to run to
+# execute the build directly. This is an example of how you could modify a build
+# system so that it gets the name of the executable to use to build the current
+# file from the current file itself.
+#
+# In order to use this, you would need a build file that looks something like
+# the following example. This build is python specific but it doesn't need to
+# be.
+#
+# {
+#     // WindowCommand to execute for this build
+#     "target": "shebanger",
+#
+#     // Use this when there is no shebang
+#     "interpreter_default": "python",
+#
+#     // Args to pass to the interpreter
+#     "interpreter_args": ["-u"],
+#
+#     "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+#     "selector": "source.python",
+#
+#     "env": {"PYTHONIOENCODING": "utf-8"},
+#
+#     "variants":
+#     [
+#         {
+#             "name": "Syntax Check",
+#             "interpreter_args": ["-m py_compile"],
+#         }
+#     ]
+# }
 
 class ShebangerCommand(sublime_plugin.WindowCommand):
     """

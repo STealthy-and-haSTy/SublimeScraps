@@ -5,6 +5,9 @@ import os
 # Related Reading:
 #     https://forum.sublimetext.com/t/displaying-project-name-on-the-rite-side-of-the-status-bar/24721
 
+# This just displays the filename portion of the current project file in the
+# status bar, which is the same text that appears by default in the window
+# caption.
 
 def plugin_loaded ():
     """

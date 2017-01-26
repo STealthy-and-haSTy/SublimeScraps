@@ -4,6 +4,14 @@ import sublime_plugin
 # Related reading:
 #     http://stackoverflow.com/questions/40088877/sublime-text-open-all-files-containing-search-term
 
+# This adds a new command named "open_all_found_files" which can be bound to a
+# key, added to the command palette, etc. When you invoke the command while
+# inside of the results of a "Find in Files" operation it will locate all of the
+# filenames where matches were found and open them.
+#
+# The command takes an optional parameter "new_window" which you can pass and
+# set to true if you want the results to open in a new window; otherwise they
+# open in the current window.
 
 class OpenAllFoundFilesCommand(sublime_plugin.TextCommand):
     """

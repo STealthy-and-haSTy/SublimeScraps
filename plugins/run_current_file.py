@@ -3,6 +3,15 @@ import sublime_plugin
 # Related reading:
 #     https://forum.sublimetext.com/t/concatenating-string-arguments-in-key-bindings/20983/
 
+# This implements a new command named "run_current_file" which will replace the
+# extension on the current file for another one and then attempt to execute it.
+# The command takes an argument named "extension" that is the extension to add
+# to the file (should also contain the period), with the default being ".exe" if
+# none is specified.
+#
+# This is an example of how to work around a limitation in Sublime in which the
+# variables that are usually available in a build system are not available to
+# most commands.
 
 class RunCurrentFileCommand (sublime_plugin.WindowCommand):
     """
@@ -21,7 +30,6 @@ class RunCurrentFileCommand (sublime_plugin.WindowCommand):
 
             # Make the working directory be the path of the current file
             working_dir = vars['file_path']
-
 
             self.window.run_command ("exec", {
                 "cmd": [executable],
