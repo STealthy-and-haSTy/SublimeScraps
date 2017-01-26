@@ -64,6 +64,11 @@ of each file for more information on full usage.
 
    Same potato, different bag. (is that a saying? It should be if it's not.)
 
+ * **custom_build_variables.py** is yet another example of a build system
+   enhancement. In this example we provide our own custom build variables to
+   the build system. This could be used to insert some project specific
+   information easily into a build.
+
  * **run_current_file** came about when someone wanted to bind a key that would
    try to execute a file based on the name of the current file. For example if
    you were editing *cool.c* it would try to execute *cool.exe*.
