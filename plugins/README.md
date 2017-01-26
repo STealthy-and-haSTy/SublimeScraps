@@ -24,6 +24,12 @@ of each file for more information on full usage.
 
 ### What they does
 
+ * **find_results_copy.py** is an example of seamlessly expanding the
+   capabilities of Sublime to make it work the way you want. This provides a
+   command that allows you to copy whole result lines from a Find in Files
+   result buffer and have the line numbers that precede the text be removed
+   automatically
+
  * **minimap_toggler.py** is a simple example of having the sublime text
    minimap turn itself off only for files of a certain syntax. There is no
    setting that controls this, and the minimap toggles on and off on a
@@ -47,32 +53,6 @@ of each file for more information on full usage.
    status line, although this could easily be modified to make it the last item
    as well.
 
- * **set_status.py** is a small command that just adds a bit of text temporarily
-   to the status bar. This allows you to create a macro that displays text in
-   the status bar when you execute it.
-
- * **shebanger.py** is a command that is meant to be used as the `target`
-   inside of a build system. It's a proof of concept that is rather naive, but
-   the idea is that it would run the current python file using the interpreter
-   that is in the shebang line of the current file instead of the version in
-   the build system.
-
-   This is naive for a few reasons, but is a good proof of concept for how
-   one would bridge together a standard Sublime build system with some custom
-   handling.
-
- * **python_build.py** is similar to **shebanger.py** except that here the
-   method is slightly different. Here the interpreter to use is stored as one
-   of two options in the build system, and the first line of the file selects
-   which one the build uses.
-
-   Same potato, different bag. (is that a saying? It should be if it's not.)
-
- * **custom_build_variables.py** is yet another example of a build system
-   enhancement. In this example we provide our own custom build variables to
-   the build system. This could be used to insert some project specific
-   information easily into a build.
-
  * **run_current_file** came about when someone wanted to bind a key that would
    try to execute a file based on the name of the current file. For example if
    you were editing *cool.c* it would try to execute *cool.exe*.
@@ -80,8 +60,6 @@ of each file for more information on full usage.
    Turns out that build variable substitutions are not applied in most standard
    commands. This shows how one could go about making such a command.
 
- * **find_results_copy.py** is an example of seamlessly expanding the
-   capabilities of Sublime to make it work the way you want. This provides a
-   command that allows you to copy whole result lines from a Find in Files
-   result buffer and have the line numbers that precede the text be removed
-   automatically
+ * **set_status.py** is a small command that just adds a bit of text temporarily
+   to the status bar. This allows you to create a macro that displays text in
+   the status bar when you execute it.

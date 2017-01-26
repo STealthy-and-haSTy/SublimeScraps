@@ -21,11 +21,11 @@ not cover all use cases or scenarios.
 The layout of the files here is:
 
  * **customizations** contains files that I keep in my own `User` package that
-   I use day to day.
+   I use day to day. This does not include my settings, however.
 
- * **macros** contains sample macro files that are probably not interesting
-   unto themselves, but which are referenced from some of the files in
-   *customizations*.
+ * **macros** contains some sample macros (commented with an associated key
+   binding) which illustrate how easy it is to customize Sublime to work your
+   way.
 
  * **snippets** contains sample snippets that I have in my user package that
    others may find useful. Maybe. Probably not.
@@ -42,3 +42,8 @@ The layout of the files here is:
    response to helping others (great excuse to learn the Sublime API) to stop
    them from getting lost in the mists of time, although I'm sure nobody would
    notice if they did.
+
+ * **build_enhancements** is similar to **plugins** except that here the
+   commands are for modifying how a `sublime-build` file is used. This allows
+   for things like custom variables in command lines and selecting the command
+   to build at runtime instead of hard coding it.
