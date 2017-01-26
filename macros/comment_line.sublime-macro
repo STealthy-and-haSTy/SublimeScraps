@@ -1,13 +1,17 @@
 // This is a very simplistic macro which can be used to toggle a line comment on
-// the current line, and then advance the cursor down to the next line.
+// the current line, and then advance the cursor down to the next line, but only
+// when there is nothing selected. This mimics a similar feature in JetBrains
+// tools.
 //
-// I got used to this particular flow while working with JetBrains tools, and is
-// one of the few things I missed when I migrated away in favor of Sublime Text.
+// A sample key binding for this is:
 //
-// Fortunately, this is easily remedied in sublime.
-//
-// There is an associated key binding in the customizations folder that binds
-// this to the default key for toggling a line comment.
+// {
+//     "keys": ["ctrl+/"],
+//     "command": "run_macro_file", "args": {"file": "res://Packages/User/macros/comment_line.sublime-macro"},
+//     "context": [{
+//         "key": "selection_empty", "operator": "equal", "operand": "true", "match_all": true }
+//     ]
+// }
 [
 	{
 		"command": "toggle_comment",

@@ -1,16 +1,19 @@
 Macros
 ------
 
-Is there more than one of these here? If so I probably forgot to update this
-README file; shame on me.
+One of the features of Sublime that people seem to forget about sometimes is the
+macro facility. A combination of a simple macro along with a suitable keyboard
+shortcut is a powerful way to enhance your editing experience.
 
-Anyway, this macro is referenced from one of the key bindings in the
-**customizations** folder, and it meant to be bound to whatever key you
-normally use to toggle a line comment.
+Here there are the following simple macros:
 
-In JetBrains tools, that command will advance the cursor down a line when you
-invoke it (unless text is selected), and this mimics that behavior. It's one of
-the few things that I miss from using those tools.
+ * **comment_line** can be used to modify the functionality of toggling a line
+   comment by having the cursor advance to the next line after the current line
+   is toggled.
+
+ * **xml_line_comment** is an example of using a macro and a key binding to
+   make Sublime comment multiple lines of XML at once as single lines instead
+   of as a group.
 
 ### Usage
 

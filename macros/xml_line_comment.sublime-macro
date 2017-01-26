@@ -1,0 +1,40 @@
+// Related reading:
+//     http://stackoverflow.com/questions/40986285/how-can-i-toggle-xml-line-comment-in-sublime-text-3
+//
+// Sublime is smart enough to know that in an XML file you can comment out a
+// whole block of code with the same comment characters as you would use to
+// comment out a single line.
+
+// This simple macro allows you to modify this so that when you select multiple
+// lines and trigger a line comment, you end up with each line individually
+// commented.
+//
+// In use, you would use a key binding such as this to invoke the macro. This
+// uses a context that causes the macro to only trigger when there is text
+// selected and you are editing an XML filee:
+//
+// {
+//     "keys": ["ctrl+/"],
+//     "command": "run_macro_file",
+//     "args": { "file": "res://Packages/User/xml_line_comment.sublime-macro" },
+//     "context": [
+//         { "key": "selection_empty", "operator": "equal", "operand": false},
+//         { "key": "selector", "operator": "equal", "operand": "text.xml"},
+//     ]
+// }
+[
+    {
+        "command": "split_selection_into_lines"
+    },
+    {
+        "command": "toggle_comment",
+        "args": {"block": false}
+    },
+    {
+        "command": "single_selection"
+    },
+    {
+        "command": "move_to",
+        "args": {"extend": false, "to": "bol" }
+    }
+]
