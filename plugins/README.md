@@ -24,42 +24,44 @@ of each file for more information on full usage.
 
 ### What they does
 
- * **find_results_copy.py** is an example of seamlessly expanding the
-   capabilities of Sublime to make it work the way you want. This provides a
-   command that allows you to copy whole result lines from a Find in Files
-   result buffer and have the line numbers that precede the text be removed
-   automatically
+ * [find_results_copy.py](find_results_copy.py) is an example of seamlessly
+   expanding the capabilities of Sublime to make it work the way you want. This
+   provides a command that allows you to copy whole result lines from a Find in
+   Files result buffer and have the line numbers that precede the text be
+   removed automatically
 
- * **minimap_toggler.py** is a simple example of having the sublime text
-   minimap turn itself off only for files of a certain syntax. There is no
-   setting that controls this, and the minimap toggles on and off on a
-   window-by-window basis (not view-by-view), so some chicanery is needed to
-   pull this off.
+ * [minimap_toggler.py](minimap_toggler.py) is a simple example of having the
+   sublime text minimap turn itself off only for files of a certain syntax.
+   There is no setting that controls this, and the minimap toggles on and off
+   on a window-by-window basis (not view-by-view), so some chicanery is needed
+   to pull this off.
 
- * **open_found_files.py** is an example of collecting all of the files that
-   had a match as a part of a Find in Files operation and opening them all at
-   once. Normally in order to do this you would have to scroll through and
-   click on each file to open it.
+ * [open_found_files.py](open_found_files.py) is an example of collecting all
+   of the files that had a match as a part of a Find in Files operation and
+   opening them all at once. Normally in order to do this you would have to
+   scroll through and click on each file to open it.
 
    The command presented should be bound to a key and can optionally open a new
    window and open the files there, instead of opening them in the current
    window.
 
- * **project_in_statusbar.py** is a simple example of adding text to the status
-   bar in Sublime text. In this case, it adds the name of the current project
-   file, which is already displayed in the Sublime title bar.
+ * [project_in_statusbar.py](project_in_statusbar.py) is a simple example of
+   adding text to the status bar in Sublime text. In this case, it adds the
+   name of the current project file, which is already displayed in the Sublime
+   title bar.
 
    The code tries to ensure that the project name is the first thing in the
    status line, although this could easily be modified to make it the last item
    as well.
 
- * **run_current_file** came about when someone wanted to bind a key that would
-   try to execute a file based on the name of the current file. For example if
-   you were editing *cool.c* it would try to execute *cool.exe*.
+ * [run_current_file.py](run_current_file.py) came about when someone wanted to
+   bind a key that would try to execute a file based on the name of the current
+   file. For example if you were editing *cool.c* it would try to execute
+   *cool.exe*.
 
    Turns out that build variable substitutions are not applied in most standard
    commands. This shows how one could go about making such a command.
 
- * **set_status.py** is a small command that just adds a bit of text temporarily
-   to the status bar. This allows you to create a macro that displays text in
-   the status bar when you execute it.
+ * [set_status.py](set_status.py) is a small command that just adds a bit of
+   text temporarily to the status bar. This allows you to create a macro that
+   displays text in the status bar when you execute it.

@@ -20,30 +20,34 @@ not cover all use cases or scenarios.
 
 The layout of the files here is:
 
- * **customizations** contains files that I keep in my own `User` package that
-   I use day to day. This does not include my settings, however.
+ * [customizations](customizations/README.md) contains files that I keep in my
+   own `User` package that I use day to day. This does not include my settings,
+   however.
 
- * **macros** contains some sample macros (commented with an associated key
-   binding) which illustrate how easy it is to customize Sublime to work your
-   way.
+ * [macros](macros/README.md) contains some sample macros (commented with an
+   associated key binding) which illustrate how easy it is to customize Sublime
+   to work your way.
 
- * **snippets** contains sample snippets that I have in my user package that
-   others may find useful. Maybe. Probably not.
+ * [snippets](snippets/README.md) contains sample snippets that I have in my
+   user package that others may find useful. Maybe. Probably not.
 
- * **scratch_files** is a simple plugin that I use all the time when playing
-   around with code samples. See the README in there for more information.
+ * [scratch_files](scratch_files/README.md) is a simple plugin that I use all
+   the time when playing around with code samples. See the README in there for
+   more information.
 
- * **config_popup** is another simple plugin I made to make my life easier. It
-   opens a small pop-up with configuration related entries only, including one
-   for editing project specific settings. Handier than using the menu as not
-   all of the options listed are in the command palette by default.
+ * [config_popup](config_popup/README.md) is another simple plugin I made to
+   make my life easier. It opens a small pop-up with configuration related
+   entries only, including one for editing project specific settings. Handier
+   than using the menu as not all of the options listed are in the command
+   palette by default.
 
- * **plugins** is a bunch of one-off plugin samples that I have worked up in
-   response to helping others (great excuse to learn the Sublime API) to stop
-   them from getting lost in the mists of time, although I'm sure nobody would
-   notice if they did.
+ * [plugins](plugins/README.md) is a bunch of one-off plugin samples that I
+   have worked up in response to helping others (great excuse to learn the
+   Sublime API) to stop them from getting lost in the mists of time, although
+   I'm sure nobody would notice if they did.
 
- * **build_enhancements** is similar to **plugins** except that here the
-   commands are for modifying how a `sublime-build` file is used. This allows
-   for things like custom variables in command lines and selecting the command
-   to build at runtime instead of hard coding it.
+ * [build_enhancements](build_enhancements/README.md) is similar to
+   [plugins](plugins/README.md) except that here the commands are for modifying
+   how a `sublime-build` file is used. This allows for things like custom
+   variables in command lines and selecting the command to build at runtime
+   instead of hard coding it.

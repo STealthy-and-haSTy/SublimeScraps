@@ -1,10 +1,11 @@
 Config Popup
 ------------
 
-As mentioned in the README for **scratch_files**, a lot of the time while
-helping people with a problem, it is necessary to check into a configuration
-file to get default settings, etc. Some (but not all) options for this are
-available in the command palette, and it is annoying to use the menu for this.
+As mentioned in the README for [scratch_files](../scratch_files/README.md), a
+lot of the time while helping people with a problem, it is necessary to check
+into a configuration file to get default settings, etc. Some (but not all)
+options for this are available in the command palette, and it is annoying to
+use the menu for this.
 
 Come  to think of it, Sublime has taught me that the menu is evil in general
 because it's not as smart as a fuzzy filtered command palette. So if you take

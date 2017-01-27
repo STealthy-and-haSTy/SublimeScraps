@@ -25,17 +25,19 @@ on its specific use.
 
 ### What they does
 
- * **custom_build_variables.py** is an example showing how to provide our own
-   custom build variables to the build system. This could be used to insert
-   some project specific information easily into a build, for example.
+ * [custom_build_variables.py](custom_build_variables.py) is an example showing
+   how to provide our own custom build variables to the build system. This
+   could be used to insert some project specific information easily into a
+   build, for example.
 
- * **python_build.py** is an example of configuring a build system to have two
-   different commands (here 32-bit and 64-bit versions of python) and having
-   the first line in the file have text which tells the build which version to
-   use.
+ * [python_build.py](python_build.py) is an example of configuring a build
+   system to have two different commands (here 32-bit and 64-bit versions of
+   python) and having the first line in the file have text which tells the
+   build which version to use.
 
- * **shebanger.py** is similar to **python_build.py** in that it determines
-   what to use to perform the build from the first line of the current file. In
-   this case that is a "shebang" line that directly specifies the interpreter.
+ * [shebanger.py](shebanger.py) is similar to **python_build.py** in that it
+   determines what to use to perform the build from the first line of the
+   current file. In this case that is a "shebang" line that directly specifies '
+   the interpreter.
 
    Same potato, different bag. (is that a saying? It should be if it's not.)
