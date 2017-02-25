@@ -46,6 +46,10 @@ The layout of the files here is:
    Sublime API) to stop them from getting lost in the mists of time, although
    I'm sure nobody would notice if they did.
 
+ * [quick_panel](quick_panel/README.md) is a list of examples for using the
+   Sublime text `quick_panel` in more complex ways than just a simple list of
+   text.
+
  * [build_enhancements](build_enhancements/README.md) is similar to
    [plugins](plugins/README.md) except that here the commands are for modifying
    how a `sublime-build` file is used. This allows for things like custom
