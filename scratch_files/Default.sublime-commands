@@ -5,6 +5,7 @@
     // installed; as of build 3126, Sublime doesn't ship with support for this
     // language.
     { "caption": "Scratch Buffer: Plain Text", "command": "scratch_buffer"},
+    { "caption": "Scratch Buffer: Markdown",   "command": "scratch_buffer", "args": {"syntax": "Packages/Markdown/Markdown.sublime-syntax"}},
     { "caption": "Scratch Buffer: HTML",       "command": "scratch_buffer", "args": {"syntax": "Packages/HTML/HTML.sublime-syntax"}},
     { "caption": "Scratch Buffer: JavaScript", "command": "scratch_buffer", "args": {"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"}},
     { "caption": "Scratch Buffer: JSON",       "command": "scratch_buffer", "args": {"syntax": "Packages/JavaScript/JSON.sublime-syntax"}},
