@@ -7,7 +7,7 @@ code and text editing, I also use it for temporary scratch pads when I'm
 working on stuff.
 
 Often, when helping people out with problems they might be having it is
-required to come up with a code sample or simply play around with a sample.
+required to come up with a code sample or simply play around with sample text.
 Although it is simple to create a new view and set the syntax using a keystroke
 and the command palette, that leaves you with a file that you get asked to save
 when you probably don't care.
@@ -29,13 +29,16 @@ Sublime Text `Packages` folder, where it will become a package.
 The important part of this is the python source file. If desired you can just
 put it directly into some package (e.g. your `User` package) and use it that
 way. It adds a command called `scratch_buffer` that takes an argument of
-`syntax`, which should point to the name of a syntax that you want. The default
-value for this argument if you do not provide it is `"Packages/Text/Plain
-text.tmLanguage"`.
+`syntax`, which should point to the name of a syntax that you want.
+
+The default value for this argument if you do not provide it is
+`"Packages/Text/Plain text.tmLanguage"`. It is also possible to explicitly pass
+`None` for this argument, which will cause the command to prompt you for the
+syntax to use first.
 
 The folder also contains a `sublime-commands` file which adds a variety of
 languages to the command palette. You can use this as is, merge it with your
-own, add syntaxes, etc.
+own, add often used syntaxes, etc.
 
 It is also possible to map this command to a key press, if you have a particular
 syntax that you use often for example.
