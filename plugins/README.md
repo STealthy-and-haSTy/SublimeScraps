@@ -65,3 +65,7 @@ of each file for more information on full usage.
  * [set_status.py](set_status.py) is a small command that just adds a bit of
    text temporarily to the status bar. This allows you to create a macro that
    displays text in the status bar when you execute it.
+
+ * [set_vc_vars.py](set_vc_vars.py) is a simple plugin for modifying the
+   environment of Sublime while it's running to allow you to run Visual Studio
+   commands in build systems.
