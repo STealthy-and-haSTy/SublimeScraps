@@ -22,7 +22,7 @@ Generally, each python file is a self contained example of the required plugin
 code. Some of them may require extra files to be placed somewhere. See inside
 of each file for more information on full usage.
 
-### What they does
+### What they do
 
  * [find_results_copy.py](find_results_copy.py) is an example of seamlessly
    expanding the capabilities of Sublime to make it work the way you want. This
@@ -69,3 +69,6 @@ of each file for more information on full usage.
  * [set_vc_vars.py](set_vc_vars.py) is a simple plugin for modifying the
    environment of Sublime while it's running to allow you to run Visual Studio
    commands in build systems.
+
+ * [wrap_text.py](wrap_text.py) is a simple plugin for reflowing multiline text
+   so that it cuts off (hard wraps) at a predefined width, for example at a ruler.
