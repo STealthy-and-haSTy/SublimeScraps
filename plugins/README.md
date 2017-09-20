@@ -70,5 +70,10 @@ of each file for more information on full usage.
    environment of Sublime while it's running to allow you to run Visual Studio
    commands in build systems.
 
+ * [toggle_setting_ext.py](toggle_setting_ext.py) is a version of the internal
+   sublime `toggle_setting` command that can toggle any setting between any
+   value, instead of just toggling a boolean setting off and on.
+
  * [wrap_text.py](wrap_text.py) is a simple plugin for reflowing multiline text
-   so that it cuts off (hard wraps) at a predefined width, for example at a ruler.
+   so that it cuts off (hard wraps) at a predefined width, for example at a
+   ruler.
