@@ -28,7 +28,7 @@ import sublime_plugin
 # {
 #    "keys": ["super+s"], "command": "toggle_setting_ext",
 #    "args": {
-#       "setting": "draw_white_space"
+#       "setting": "draw_white_space",
 #       "options": ["all", "selection", "none"]
 #    }
 # },
@@ -38,7 +38,7 @@ import sublime_plugin
 # {
 #    "keys": ["super+s"], "command": "toggle_setting_ext",
 #    "args": {
-#       "setting": "rulers"
+#       "setting": "rulers",
 #       "options": [[80, 110], [40, 55]]
 #    }
 # },
@@ -47,7 +47,7 @@ import sublime_plugin
 # {
 #    "keys": ["super+s"], "command": "toggle_setting_ext",
 #    "args": {
-#       "setting": "word_wrap"
+#       "setting": "word_wrap",
 #       "options": [True, False]
 #    }
 # },
