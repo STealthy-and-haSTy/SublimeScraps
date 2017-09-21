@@ -76,4 +76,4 @@ of each file for more information on full usage.
 
  * [wrap_text.py](wrap_text.py) is a simple plugin for reflowing multiline text
    so that it cuts off (hard wraps) at a predefined width, for example at a
-   ruler.
+   ruler. This can even be used with line comments!
