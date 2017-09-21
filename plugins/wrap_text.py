@@ -73,7 +73,13 @@ class WrapTextCommand(sublime_plugin.TextCommand):
                 replace_whitespace=True,
             )
             # unindent the selected text, before then reformatting said text to fill the available (column) space
-            text = wrapper.fill(textwrap.dedent(self.view.substr(sel)))
+            # do it on a paragraph by paragraph basis so we don't lose blank line gaps
+            text = ''
+            for paragraph in textwrap.dedent(self.view.substr(sel)).split('\n\n'):
+                if text != '':
+                    text += '\n\n'
+                text += wrapper.fill(paragraph)
+            
             # replace the selected text with the re-wrapped text
             self.view.replace(edit, sel, text + '\n')
             # resize the selection to match the new wrapped text size
