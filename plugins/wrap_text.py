@@ -21,7 +21,7 @@ class WrapTextCommand(sublime_plugin.TextCommand):
     def run(self, edit, width=0):
         new_sel = list()
         # use the narrowest ruler from the view if no width specified, or default to 72 if no rulers are enabled
-        width = width or self.view.settings().get('rulers', [72])[0]
+        width = width or next(iter(self.view.settings().get('rulers', [])), 72)
         # determine the indentation style used in the view
         use_spaces = self.view.settings().get('translate_tabs_to_spaces', False)
         tab_size = self.view.settings().get('tab_size', 4)
