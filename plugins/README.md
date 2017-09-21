@@ -24,11 +24,18 @@ of each file for more information on full usage.
 
 ### What they do
 
+ * [double_click.py](double_click.py) is an example of how to use the Sublime
+   API to emulate a double click somewhere in the view. This involves
+   converting a caret position offset to window coordinates and calling a built
+   in command that handles mouse clicks. This is useful for cases where double
+   clicking would otherwise be the only way to access some functionality, but
+   one doesn't want to have to move a hand off the keyboard to the mouse.
+
  * [find_results_copy.py](find_results_copy.py) is an example of seamlessly
    expanding the capabilities of Sublime to make it work the way you want. This
    provides a command that allows you to copy whole result lines from a Find in
    Files result buffer and have the line numbers that precede the text be
-   removed automatically
+   removed automatically.
 
  * [minimap_toggler.py](minimap_toggler.py) is a simple example of having the
    sublime text minimap turn itself off only for files of a certain syntax.
