@@ -22,16 +22,26 @@ class WrapTextCommand(sublime_plugin.TextCommand):
         new_sel = list()
         # use the narrowest ruler from the view if no width specified, or default to 72 if no rulers are enabled
         width = width or self.view.settings().get('rulers', [72])[0]
+        # determine the indentation style used in the view
+        use_spaces = self.view.settings().get('translate_tabs_to_spaces', False)
+        tab_size = self.view.settings().get('tab_size', 4)
+        one_level = ' ' * tab_size if use_spaces else '\t'
         # loop through the selections in reverse order so that the selection positions don't move when the selected text changes size
         for sel in reversed(self.view.sel()):
             # make sure the leading indentation is selected, for `dedent` to work properly
             sel = sel.cover(self.view.line(sel.begin()))
             # determine how much indentation is at the first selected line
-            # TODO: support tab indentation
-            indentation_amount = self.view.indentation_level(sel.begin()) * self.view.settings().get('tab_size', 4)
-            indentation = ' ' * indentation_amount
+            indentation_level = self.view.indentation_level(sel.begin())
+            indentation = one_level * indentation_level
             # create a wrapper that will keep that indentation
-            wrapper = textwrap.TextWrapper(drop_whitespace=True, width=width, initial_indent=indentation, subsequent_indent=indentation)
+            wrapper = textwrap.TextWrapper(
+                drop_whitespace=True,
+                width=width - (0 if use_spaces else (tab_size - 1) * indentation_level), # if tabs are used, then we need to pretend the max width is smaller, because here Python counts a tab as a single char
+                initial_indent=indentation,
+                subsequent_indent=indentation,
+                expand_tabs=False,
+                replace_whitespace=True,
+            )
             # unindent the selected text before then reformatting the text to fill the available (column) space
             text = wrapper.fill(textwrap.dedent(self.view.substr(sel)))
             # replace the selected text with the rewrapped text
