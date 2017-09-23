@@ -3,7 +3,7 @@ import sublime_plugin
 
 # Related reading:
 #     https://forum.sublimetext.com/t/command-to-move-by-several-lines/28508
-#     https://forum.sublimetext.com/t/command-to-move-by-several-lines/28508
+#     https://stackoverflow.com/questions/46369685/sublime-how-can-i-jump-n-lines-with-the-keyboard-arrows/
 
 # A couple of users were interested in making the built in move command for
 # moving the cursor around be able to take the same action a number of times

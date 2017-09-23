@@ -45,7 +45,7 @@ of each file for more information on full usage.
 
  * [move_amount.py](move_amount.py) is a simple drop in replacement for the
    standard `move` command that allows you to specify the number of times the
-   movement happens. This can be handy for certain kinda of navigation or in
+   movement happens. This can be handy for certain kinds of navigation or in
    macros to make them more manageable if they contain a lot of motion.
 
  * [open_found_files.py](open_found_files.py) is an example of collecting all
