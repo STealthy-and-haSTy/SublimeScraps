@@ -90,10 +90,12 @@ class WrapTextCommand(sublime_plugin.TextCommand):
 
 def find_region_matching_selector(view, within_region, selector):
     is_match = lambda pt: view.match_selector(pos, selector)
+    # advance while the selector doesn't match
     pos = within_region.begin()
     while pos < within_region.end() and not is_match(pos):
         pos += 1
     start_pos = pos
+    # advance while the selector matches to find the extent the scope
     while pos < within_region.end() and is_match(pos):
         pos += 1
     return sublime.Region(start_pos, pos)
@@ -131,7 +133,8 @@ class ContinueCommentOnNextLineCommand(sublime_plugin.TextCommand):
 
 
 def unique_regions(regions):
-    # NOTE: using `set(` directly doesn't work due to Region not being a hashable type...
+    # NOTE: using `set(` directly doesn't work due to Region not being a hashable type, as Region isn't immutable
+    #       - this doesn't return a Region, but a tuple (although we could change it to if desired)
     return set(map(lambda region: (region.begin(), region.end()), regions))
 
 
@@ -141,11 +144,13 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
     is. This will remove the `\n` character at EOL, and all leading
     whitespace at the beginning of the next line (i.e. indentation).
     
+    If a space doesn't preceed the end of the current line, add a space
+    before joining the lines together.
+    
     Also, if the `\n` on the current line is scoped as a comment line,
     then look for more comment line punctuation on the beginning of the
-    next line, and remove that too. This makes it easy to join comment
-    lines together. If a space precedes the end of the current line,
-    also remove leading whitespace after the comment token.
+    next line, and remove that too along with any whitespace after it.
+    This makes it easy to join comment lines together.
     """
     def run(self, edit):
         # get a unique list of lines where the caret(s) are
@@ -160,12 +165,12 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
                 # find where the comment punctuation ends
                 if self.view.match_selector(whitespace_ends, 'punctuation.definition.comment - punctuation.definition.comment.end'):
                     whitespace_ends = find_region_matching_selector(self.view, sublime.Region(whitespace_ends, next_line.end()), 'punctuation').end()
-                    # if a space preceeds the end of the current line
-                    if self.view.substr(max(current_line_begin, current_line_end - 1)) == ' ':
-                        # also remove leading whitespace after the comment token
-                        whitespace_ends = min(next_line.end(), advance_to_first_non_white_space_on_line(self.view, whitespace_ends))
+                    # also remove leading whitespace after the comment token
+                    whitespace_ends = min(next_line.end(), advance_to_first_non_white_space_on_line(self.view, whitespace_ends))
+            # if a space preceeds the end of the current line, don't insert a space before the line being joined, otherwise do
+            replace_with = '' if self.view.substr(max(current_line_begin, current_line_end - 1)) == ' ' else ' '
             # remove the \n and any leading whitespace on the next line
-            self.view.replace(edit, sublime.Region(current_line_end, whitespace_ends), '')
+            self.view.replace(edit, sublime.Region(current_line_end, whitespace_ends), replace_with)
 
 # Example keybindings (duplicate `enter` to `keypad_enter` if desired)
 # { "keys": ["alt+q"], "command": "wrap_text" },
@@ -174,7 +179,7 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
 #         "insert_what": "*",
 #     },
 #     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation", "match_all": true },
+#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - comment.block.html - comment.block.xml", "match_all": true },
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
 #         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "/\\*", "match_all": true },
 #     ],
@@ -184,7 +189,7 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
 #         "insert_what": " *",
 #     },
 #     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation", "match_all": true },
+#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - comment.block.html - comment.block.xml", "match_all": true },
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
 #         { "key": "preceding_text", "operator": "regex_contains", "operand": "/\\*", "match_all": true },
 #     ],
@@ -205,5 +210,6 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
 #     "context": [
 #         { "key": "following_text", "operator": "regex_match", "operand": "$", "match_all": true },
 #         { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+#         //{ "key": "selector", "operator": "equal", "operand": "comment", "match_all": true },
 #     ],
 # },
