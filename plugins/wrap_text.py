@@ -168,7 +168,7 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
                     # also remove leading whitespace after the comment token
                     whitespace_ends = min(next_line.end(), advance_to_first_non_white_space_on_line(self.view, whitespace_ends))
             # if a space preceeds the end of the current line, don't insert a space before the line being joined, otherwise do
-            replace_with = '' if self.view.substr(max(current_line_begin, current_line_end - 1)) == ' ' else ' '
+            replace_with = '' if self.view.substr(max(current_line_begin, current_line_end - 1)) == ' ' or next_line.empty() else ' '
             # remove the \n and any leading whitespace on the next line
             self.view.replace(edit, sublime.Region(current_line_end, whitespace_ends), replace_with)
 
