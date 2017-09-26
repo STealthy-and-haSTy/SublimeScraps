@@ -124,7 +124,7 @@ class ContinueCommentOnNextLineCommand(sublime_plugin.TextCommand):
             # find text with the `punctuation` scope on the line, only searching up to the caret position
             pos = self.view.sel()[0].begin()
             line_begin = self.view.line(pos).begin()
-            region = find_region_matching_selector(self.view, sublime.Region(line_begin, pos), 'punctuation')
+            region = find_region_matching_selector(self.view, sublime.Region(line_begin, pos), 'comment punctuation')
             insert_what = self.view.substr(region)
         # the insert command will take care of keeping the indentation after the \n the same as the current line
         if insert_what:
@@ -164,7 +164,7 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
             if self.view.match_selector(current_line_end, 'comment'):
                 # find where the comment punctuation ends
                 if self.view.match_selector(whitespace_ends, 'punctuation.definition.comment - punctuation.definition.comment.end'):
-                    whitespace_ends = find_region_matching_selector(self.view, sublime.Region(whitespace_ends, next_line.end()), 'punctuation').end()
+                    whitespace_ends = find_region_matching_selector(self.view, sublime.Region(whitespace_ends, next_line.end()), 'comment punctuation').end()
                     # also remove leading whitespace after the comment token
                     whitespace_ends = min(next_line.end(), advance_to_first_non_white_space_on_line(self.view, whitespace_ends))
             # if a space preceeds the end of the current line, don't insert a space before the line being joined, otherwise do
