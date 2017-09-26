@@ -172,6 +172,15 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
             # remove the \n and any leading whitespace on the next line
             self.view.replace(edit, sublime.Region(current_line_end, whitespace_ends), replace_with)
 
+
+#  capture when the built in wrap_lines command is executed and rewrite it to execute our much better command instead
+class WrapTextListener(sublime_plugin.EventListener):
+    def on_text_command(self, view, command_name, args):
+        if command_name == 'wrap_lines':
+            return ('wrap_text', args)
+        return None
+
+
 # Example keybindings (duplicate `enter` to `keypad_enter` if desired)
 # { "keys": ["alt+q"], "command": "wrap_text" },
 # { "keys": ["enter"], "command": "continue_comment_on_next_line",
