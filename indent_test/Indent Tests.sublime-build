@@ -1,0 +1,11 @@
+{
+    "target": "run_indent_tests",
+    "file_patterns": ["indentation_test*"],
+
+    "variants": [
+        {
+            "name": "All Indent Rules",
+            "find_all": true
+        }
+    ]
+}

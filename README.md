@@ -41,6 +41,10 @@ The layout of the files here is:
    than using the menu as not all of the options listed are in the command
    palette by default.
 
+ * [indent_test](indent_test/README.md) is a simple prototype plugin that
+   performs tests on the indent rules in Sublime in a manner similar to how
+   the internal syntax file testing works.
+
  * [plugins](plugins/README.md) is a bunch of one-off plugin samples that I
    have worked up in response to helping others (great excuse to learn the
    Sublime API) to stop them from getting lost in the mists of time, although
