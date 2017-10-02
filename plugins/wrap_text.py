@@ -36,6 +36,9 @@ class WrapTextCommand(sublime_plugin.TextCommand):
         # make sure the entire line is selected for each selection region
         # - `remove_line_comment` needs the region to be at the start of the line
         # - `dedent` needs it in order to see what indentation all lines have in common
+        # but first, ensure we follow the Principal of Least Surprise by not expanding the selection to lines where only column 0 is selected
+        # - related reading: https://forum.sublimetext.com/t/next-line-is-included-when-sorting-a-multi-line-selection/30580
+        self.view.run_command('deselect_trailing_newlines')
         self.view.run_command('expand_selection', { 'to': 'line' })
         
         new_sel = list()
@@ -179,6 +182,31 @@ class WrapTextListener(sublime_plugin.EventListener):
         if command_name == 'wrap_lines':
             return ('wrap_text', args)
         return None
+
+
+class DeselectTrailingNewlines(sublime_plugin.TextCommand):
+    """
+    For each selection that is non-empty, if the very last character in
+    the selection is a `\n`, then remove/subtract it from the selection.
+    
+    This is useful when wanting to use a command that will expand the
+    selections to the entire line, as one might expect that having no
+    text on the line selected should result in the line not being
+    included when executing such a command, but the selection is
+    expanded from column 0 to the next `\n` character at the end of
+    that line...
+    """
+    def run(self, edit):
+        subtract = []
+        for sel in self.view.sel():
+            if not sel.empty():
+                # if the selection ends on column 0 (am presuming this is more performant that checking the last character in the selection)
+                if self.view.rowcol(sel.end())[1] == 0:
+                    # add the `\n` to the list of regions to subtract from the selections
+                    subtract.append(sublime.Region(sel.end() - 1, sel.end()))
+        # remove the `\n`s (am assuming this is more performant than removing all selections and re-adding regions without the `\n`s)
+        for region in subtract:
+            self.view.sel().subtract(region)
 
 
 # Example keybindings (duplicate `enter` to `keypad_enter` if desired)
