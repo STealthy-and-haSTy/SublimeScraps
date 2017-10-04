@@ -86,6 +86,10 @@ of each file for more information on full usage.
    sublime `toggle_setting` command that can toggle any setting between any
    value, instead of just toggling a boolean setting off and on.
 
- * [wrap_text.py](wrap_text.py) is a simple plugin for reflowing multiline text
-   so that it cuts off (hard wraps) at a predefined width, for example at a
-   ruler. This can even be used with line comments!
+ * [wrap_text.py](wrap_text.py) started as a simple plugin for reflowing
+   multiline text so that it cuts off (hard wraps) at a predefined width, for
+   example at a ruler. It was primarily designed for Python docstrings, but soon
+   became apparant that some more related functionality would make it super
+   useful - for example, wrapping line comments! - so it became quite a lot more
+   advanced. It now also makes it easier to join consecutive comment lines
+   together by pressing <kbd>delete</kbd> at the end of the first line.
