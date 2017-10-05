@@ -148,7 +148,10 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
     whitespace at the beginning of the next line (i.e. indentation).
     
     If a space doesn't preceed the end of the current line, add a space
-    before joining the lines together.
+    before joining the lines together, if the next line isn't empty and
+    doesn't consist only of whitespace (as that will get trimmed and we
+    would end up with a space after the caret and nothing after it when
+    using this command to remove "blank" lines below the current one).
     
     Also, if the `\n` on the current line is scoped as a comment line,
     then look for more comment line punctuation on the beginning of the
@@ -170,8 +173,8 @@ class JoinLineBelowCommand(sublime_plugin.TextCommand):
                     whitespace_ends = find_region_matching_selector(self.view, sublime.Region(whitespace_ends, next_line.end()), 'comment punctuation').end()
                     # also remove leading whitespace after the comment token
                     whitespace_ends = min(next_line.end(), advance_to_first_non_white_space_on_line(self.view, whitespace_ends))
-            # if a space preceeds the end of the current line, don't insert a space before the line being joined, otherwise do
-            replace_with = '' if self.view.substr(max(current_line_begin, current_line_end - 1)) == ' ' or next_line.empty() else ' '
+            # if a space preceeds the end of the current line, or the current or next line is empty, don't insert a space before the line being joined, otherwise do
+            replace_with = '' if self.view.substr(max(current_line_begin, current_line_end - 1)) in (' ', '\n') or next_line.empty() or whitespace_ends == next_line.end() else ' '
             # remove the \n and any leading whitespace on the next line
             self.view.replace(edit, sublime.Region(current_line_end, whitespace_ends), replace_with)
 
