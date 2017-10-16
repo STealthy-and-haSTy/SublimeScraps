@@ -249,6 +249,7 @@ class DeselectTrailingNewlines(sublime_plugin.TextCommand):
 # { "keys": ["delete"], "command": "join_line_below",
 #     "context": [
 #         { "key": "following_text", "operator": "regex_match", "operand": "$", "match_all": true },
+#         { "key": "preceding_text", "operator": "not_regex_match", "operand": "^", "match_all": true },
 #         { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 #         //{ "key": "selector", "operator": "equal", "operand": "comment", "match_all": true },
 #     ],
