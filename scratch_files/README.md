@@ -36,6 +36,13 @@ The default value for this argument if you do not provide it is
 `None` for this argument, which will cause the command to prompt you for the
 syntax to use first.
 
+If you're using build 3154 or later of Sublime Text and invoke the the
+`scratch_buffer` command from the command palette with this argument set to
+`None`, the selection of the syntax will happen directly in the command
+palette.
+
+In all other cases the syntax selection is done via a quick panel instead.
+
 The folder also contains a `sublime-commands` file which adds a variety of
 languages to the command palette. You can use this as is, merge it with your
 own, add often used syntaxes, etc.

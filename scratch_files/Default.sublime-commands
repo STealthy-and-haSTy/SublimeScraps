@@ -11,5 +11,9 @@
     { "caption": "Scratch Buffer: JSON",              "command": "scratch_buffer", "args": {"syntax": "Packages/JavaScript/JSON.sublime-syntax"}},
     { "caption": "Scratch Buffer: Python",            "command": "scratch_buffer", "args": {"syntax": "Packages/Python/Python.sublime-syntax"}},
     { "caption": "Scratch Buffer: TypeScript",        "command": "scratch_buffer", "args": {"syntax": "Packages/TypeScript/TypeScript.tmLanguage"}},
-    { "caption": "Scratch Buffer: Prompt for Syntax", "command": "scratch_buffer", "args": {"syntax": null}}
+
+    // For versions of Sublime prior to build 3154, swap these around. Input in
+    // the command palette looks nicer with a shorter command name.
+    // { "caption": "Scratch Buffer: Prompt for Syntax", "command": "scratch_buffer", "args": {"syntax": null}}
+    { "caption": "Scratch Buffer",                    "command": "scratch_buffer", "args": {"syntax": null}}
 ]

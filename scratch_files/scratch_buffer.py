@@ -3,47 +3,73 @@ import sublime_plugin
 import os
 
 
-class ScratchBufferCommand(sublime_plugin.WindowCommand):
+
+st_ver = int(sublime.version())
+HandlerBase = sublime_plugin.ListInputHandler if st_ver >= 3154 else object
+
+
+def _syntax_name(syntax_res):
+    syntax_file = os.path.basename(os.path.split(syntax_res)[1])
+    return os.path.splitext(syntax_file)[0]
+
+
+class SyntaxListInputHandler(HandlerBase):
     """
-    Create a scratch view with the provided syntax already set. If syntax is
-    None, you get prompted to select a syntax first.
+    Input handler for the syntax argument of the scratch_buffer command; allows
+    for the selection of one of the available syntaxes.
     """
-    def run(self,
-            syntax="Packages/Text/Plain text.tmLanguage"):
+    def name(self):
+        return "syntax"
 
-        if syntax is None:
-            return self.query_syntax()
-
-        view = self.window.new_file()
-        view.set_name("Scratch: %s" % self.syntax_name(syntax))
-
-        view.set_scratch(True)
-        view.assign_syntax(syntax)
-        view.settings().set("is_temp_scratch", True)
-
-    def syntax_name(self, syntax):
-        syntax_file = os.path.basename(os.path.split(syntax)[1])
-        return os.path.splitext(syntax_file)[0]
-
-    def pick(self, langs, name, idx):
-        if idx != -1:
-            self.window.run_command("scratch_buffer", {"syntax": langs[name]})
+    def placeholder(self):
+        return "Buffer Syntax"
 
     def parse(self, langs, resource_spec):
         for syntax in sublime.find_resources(resource_spec):
-            langs[self.syntax_name(syntax)] = syntax
+            langs[_syntax_name(syntax)] = syntax
 
-    def query_syntax(self):
+    def list_items(self):
         langs = {}
 
         self.parse(langs, "*.tmLanguage")
         self.parse(langs, "*.sublime-syntax")
 
-        captions = [[syntax, langs[syntax]] for syntax in sorted(langs.keys())]
+        return [(syntax, langs[syntax]) for syntax in sorted(langs.keys())]
+
+
+class ScratchBufferCommand(sublime_plugin.WindowCommand):
+    """
+    Create a scratch view with the provided syntax already set. If syntax is
+    None, you get prompted to select a syntax first.
+    """
+    def run(self, syntax="Packages/Text/Plain text.tmLanguage"):
+        if syntax is None:
+            self.query_syntax()
+        else:
+            self.new_view(syntax)
+
+    def input(self, args):
+        if args.get("syntax", None) is None:
+            return SyntaxListInputHandler()
+
+    def new_view(self, syntax):
+        view = self.window.new_file()
+        view.set_name("Scratch: %s" % _syntax_name(syntax))
+
+        view.set_scratch(True)
+        view.assign_syntax(syntax)
+        view.settings().set("is_temp_scratch", True)
+
+    def query_syntax(self):
+        items = [list(val) for val in SyntaxListInputHandler().list_items()]
+
+        def pick(idx):
+            if idx != -1:
+                self.new_view(items[idx][1])
 
         self.window.show_quick_panel(
-            captions,
-            on_select=lambda idx: self.pick(langs, captions[idx][0], idx))
+            items,
+            on_select=lambda idx: pick(idx))
 
 
 class ScratchBufferListener(sublime_plugin.EventListener):
