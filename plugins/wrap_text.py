@@ -54,6 +54,17 @@ class WrapTextCommand(sublime_plugin.TextCommand):
             # note the selector doesn't just use `comment.line punctuation.definition.comment`, because C# line documentation comments are scoped as `comment.block.documentation.cs punctuation.definition.comment.documentation.cs`
             comment_punctuation = list(find_regions_matching_selector(self.view, sel, 'comment punctuation.definition.comment - punctuation.definition.comment.begin - punctuation.definition.comment.end'))
             sel_comment_data.append(self.view.substr(comment_punctuation[0]) + ' ' if any(comment_punctuation) else None)
+            if not any(comment_punctuation):
+                # check if it is a block comment, ignoring the begin or end punctuation
+                comment = find_region_matching_selector(self.view, sel, 'comment.block - punctuation.definition.comment.begin - punctuation.definition.comment.end')
+                if comment:
+                    # loop through each line, ignoring the indentation
+                    lines = (sublime.Region(advance_to_first_non_white_space_on_line(self.view, line.begin()), line.end()) for line in self.view.split_by_newlines(comment))
+                    # and check if the line starts with an asterisk - if it does, queue it for removal
+                    comment_punctuation = [sublime.Region(line.begin(), line.begin() + len('*')) for line in lines if self.view.substr(line.begin()) == '*']
+                    if any(comment_punctuation):
+                        sel_comment_data.pop()
+                        sel_comment_data.append(' * ')
             for punctuation in reversed(comment_punctuation):
                 # also remove any space after the comment line punctuation, else the `indentation_level` API can return the wrong result...
                 if self.view.substr(punctuation.end()) == ' ':
