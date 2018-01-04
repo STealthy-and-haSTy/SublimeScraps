@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 import textwrap
-from Default.comment import build_comment_data, ToggleCommentCommand, advance_to_first_non_white_space_on_line
+from Default.comment import advance_to_first_non_white_space_on_line, build_comment_data
 
 # related reading: https://stackoverflow.com/a/46315431/4473405
 
@@ -48,23 +48,30 @@ class WrapTextCommand(sublime_plugin.TextCommand):
         for sel in reversed(self.view.sel()):
             # if the selection contains any single line comments, toggle the comments off
             # so the comment tokens won't get wrapped into the middle of the line - we'll reapply them later
-            comment_data = build_comment_data(self.view, sel.begin())
-            sel_comment_data.append(comment_data if ToggleCommentCommand.remove_line_comment(None, self.view, edit, comment_data, sel) else None)
+            # note the selector doesn't just use `comment.line punctuation.definition.comment`, because C# line documentation comments are scoped as `comment.block.documentation.cs punctuation.definition.comment.documentation.cs`
+            comment_punctuation = list(find_regions_matching_selector(self.view, sel, 'comment punctuation.definition.comment - punctuation.definition.comment.begin - punctuation.definition.comment.end'))
+            sel_comment_data.append(self.view.substr(comment_punctuation[0]) + ' ' if any(comment_punctuation) else None)
+            for punctuation in reversed(comment_punctuation):
+                # also remove any space after the comment line punctuation, else the `indentation_level` API can return the wrong result...
+                if self.view.substr(punctuation.end()) == ' ':
+                    punctuation = punctuation.cover(sublime.Region(punctuation.end(), punctuation.end() + len(' ')))
+                self.view.erase(edit, punctuation)
         
         # loop through the selections in reverse order so that the selection positions don't move when the selected text changes size
-        for sel, comment_data in zip(reversed(self.view.sel()), sel_comment_data):
+        for sel, line_comment in zip(reversed(self.view.sel()), sel_comment_data):
             # determine how much indentation is at the first selected line
             indentation_level = self.view.indentation_level(sel.begin())
             indentation = one_level * indentation_level
-            if comment_data: # if line comments were removed earlier
-                line_comments, block_comments = comment_data
+            
+            if line_comment: # if line comments were removed earlier
+                comment_data = build_comment_data(self.view, sel.begin())
+                # find the line comment that corresponds to the comment punctuation used, and check if indentation is disabled for it or not
+                disable_indent = next((data[1] for data in comment_data if isinstance(data, tuple) and data[0].strip() == line_comment), False)
                 # apply the line comment token as part of the indentation so the text wrapper will re-comment the text for us
-                if any(line_comments): # if there is at least one line comment token defined
-                    line_comment = line_comments[0] # if there are multiple such line comment tokens we will use the first one
-                    if line_comment[1]: # if the line comment token has DISABLE_INDENT set
-                        indentation = line_comment[0] + indentation # apply the indentation after the line comment token
-                    else:
-                        indentation += line_comment[0] # apply the indentation before the line comment token
+                if disable_indent: # if the line comment token has DISABLE_INDENT set
+                    indentation = line_comment + indentation # apply the indentation after the line comment token
+                else:
+                    indentation += line_comment # apply the indentation before the line comment token
             
             # create a text wrapper that will keep the existing indentation level
             wrapper = textwrap.TextWrapper(
@@ -101,8 +108,18 @@ def find_region_matching_selector(view, within_region, selector):
     # advance while the selector matches to find the extent the scope
     while pos < within_region.end() and is_match(pos):
         pos += 1
+    if start_pos == pos:
+        return None
     return sublime.Region(start_pos, pos)
 
+def find_regions_matching_selector(view, within_region, selector):
+    while True:
+        region = find_region_matching_selector(view, within_region, selector)
+        if region:
+            yield region
+            within_region = sublime.Region(region.end(), within_region.end())
+        else:
+            return
 
 class ContinueCommentOnNextLineCommand(sublime_plugin.TextCommand):
     """
