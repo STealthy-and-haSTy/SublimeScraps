@@ -231,22 +231,22 @@ class DeselectTrailingNewlines(sublime_plugin.TextCommand):
 
 # Example keybindings (duplicate `enter` to `keypad_enter` if desired)
 # { "keys": ["alt+q"], "command": "wrap_text" },
-# { "keys": ["enter"], "command": "continue_comment_on_next_line",
+# { "keys": ["enter"], "command": "continue_comment_on_next_line", // when on a block comment line with an asterisk on it already, ST will keep the space before it when pressing <kbd>Enter</kbd>, so we just need to insert another asterisk
 #     "args": {
 #         "insert_what": "*",
 #     },
 #     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - comment.block.html - comment.block.xml", "match_all": true },
+#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - (text - text source)", "match_all": true },
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
 #         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "/\\*", "match_all": true },
 #     ],
 # },
-# { "keys": ["enter"], "command": "continue_comment_on_next_line",
+# { "keys": ["enter"], "command": "continue_comment_on_next_line", // when on a block comment line without an asterisk on it already - i.e. the opening /* line, we need to insert a space and an asterisk when the user presses <kbd>Enter</kbd>
 #     "args": {
 #         "insert_what": " *",
 #     },
 #     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - comment.block.html - comment.block.xml", "match_all": true },
+#         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - (text - text source)", "match_all": true }, // don't trigger for XML, HTML (/ Markdown) or other syntaxes unless in an embedded source scope inside Markdown for example
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
 #         { "key": "preceding_text", "operator": "regex_contains", "operand": "/\\*", "match_all": true },
 #     ],
