@@ -39,7 +39,10 @@ class WrapTextCommand(sublime_plugin.TextCommand):
         # but first, ensure we follow the Principal of Least Surprise by not expanding the selection to lines where only column 0 is selected
         # - related reading: https://forum.sublimetext.com/t/next-line-is-included-when-sorting-a-multi-line-selection/30580
         self.view.run_command('deselect_trailing_newlines')
-        self.view.run_command('expand_selection', { 'to': 'line' })
+        if any(sel for sel in self.view.sel() if not sel.empty()):
+            self.view.run_command('expand_selection', { 'to': 'line' })
+        else:
+            self.view.run_command('expand_selection_to_paragraph')
         
         new_sel = list()
         sel_comment_data = list()
