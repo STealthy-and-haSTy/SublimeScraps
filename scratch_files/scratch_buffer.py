@@ -42,23 +42,23 @@ class ScratchBufferCommand(sublime_plugin.WindowCommand):
     Create a scratch view with the provided syntax already set. If syntax is
     None, you get prompted to select a syntax first.
     """
-    def run(self, syntax="Packages/Text/Plain text.tmLanguage"):
+    def run(self, syntax=None):
         if syntax is None:
-            self.query_syntax()
-        else:
-            self.new_view(syntax)
+            return self.query_syntax()
 
-    def input(self, args):
-        if args.get("syntax", None) is None:
-            return SyntaxListInputHandler()
-
-    def new_view(self, syntax):
         view = self.window.new_file()
         view.set_name("Scratch: %s" % _syntax_name(syntax))
 
         view.set_scratch(True)
         view.assign_syntax(syntax)
         view.settings().set("is_temp_scratch", True)
+
+    def input(self, args):
+        if args.get("syntax", None) is None:
+            return SyntaxListInputHandler()
+
+    def input_description(self):
+        return "Scratch Buffer"
 
     def query_syntax(self):
         items = [list(val) for val in SyntaxListInputHandler().list_items()]
