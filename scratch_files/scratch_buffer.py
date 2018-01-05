@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 import os
-
+import re
 
 
 st_ver = int(sublime.version())
@@ -10,7 +10,16 @@ HandlerBase = sublime_plugin.ListInputHandler if st_ver >= 3154 else object
 
 def _syntax_name(syntax_res):
     syntax_file = os.path.basename(os.path.split(syntax_res)[1])
-    return os.path.splitext(syntax_file)[0]
+    name, ext = os.path.splitext(syntax_file)
+    
+    if ext == '.sublime-syntax':
+        contents = sublime.load_resource(syntax_res)
+        # read the name from the YAML - not worth having a dependency on a full YAML parser for this...
+        match = re.search(r'^name:\s+([^\r\n]+|\'[^\']+\')$', contents, re.MULTILINE)
+        if match:
+            name = match.group(1)
+    
+    return name
 
 
 class SyntaxListInputHandler(HandlerBase):
@@ -78,5 +87,5 @@ class ScratchBufferListener(sublime_plugin.EventListener):
     changes do not get lost on accidental close.
     """
     def on_post_save(self, view):
-        if view.is_scratch() and view.settings().get ("is_temp_scratch", True):
+        if view.is_scratch() and view.settings().get("is_temp_scratch", True):
             view.set_scratch(False)
