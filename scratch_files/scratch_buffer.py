@@ -9,16 +9,16 @@ HandlerBase = sublime_plugin.ListInputHandler if st_ver >= 3154 else object
 
 
 def _syntax_name(syntax_res):
-    syntax_file = os.path.basename(os.path.split(syntax_res)[1])
+    syntax_file = os.path.basename(syntax_res)
     name, ext = os.path.splitext(syntax_file)
-    
+
     if ext == '.sublime-syntax':
         contents = sublime.load_resource(syntax_res)
         # read the name from the YAML - not worth having a dependency on a full YAML parser for this...
         match = re.search(r'^name:\s+([^\r\n]+|\'[^\']+\')$', contents, re.MULTILINE)
         if match:
             name = match.group(1)
-    
+
     return name
 
 
@@ -36,6 +36,11 @@ class SyntaxListInputHandler(HandlerBase):
     def parse(self, langs, resource_spec):
         for syntax in sublime.find_resources(resource_spec):
             langs[_syntax_name(syntax)] = syntax
+
+    def preview(self, value):
+        return sublime.Html("<strong>{}</strong>: <em>{}</em>".format(
+            value.split("/")[1],
+            os.path.basename(value)))
 
     def list_items(self):
         langs = {}
@@ -56,7 +61,7 @@ class ScratchBufferCommand(sublime_plugin.WindowCommand):
             return self.query_syntax()
 
         view = self.window.new_file()
-        view.set_name("Scratch: %s" % _syntax_name(syntax))
+        view.set_name("Scratch: {}".format(_syntax_name(syntax)))
 
         view.set_scratch(True)
         view.assign_syntax(syntax)
