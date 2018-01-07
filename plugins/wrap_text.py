@@ -241,7 +241,7 @@ class DeselectTrailingNewlines(sublime_plugin.TextCommand):
 #     "context": [
 #         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - (text - text source)", "match_all": true },
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
-#         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "/\\*", "match_all": true },
+#         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "/\\*|\\*/$|^$", "match_all": true },
 #     ],
 # },
 # { "keys": ["enter"], "command": "continue_comment_on_next_line", // when on a block comment line without an asterisk on it already - i.e. the opening /* line, we need to insert a space and an asterisk when the user presses <kbd>Enter</kbd>
@@ -252,18 +252,14 @@ class DeselectTrailingNewlines(sublime_plugin.TextCommand):
 #         { "key": "selector", "operator": "equal", "operand": "comment.block - comment.block.documentation - (text - text source)", "match_all": true }, // don't trigger for XML, HTML (/ Markdown) or other syntaxes unless in an embedded source scope inside Markdown for example
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
 #         { "key": "preceding_text", "operator": "regex_contains", "operand": "/\\*", "match_all": true },
+#         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\*/$|^$", "match_all": true },
 #     ],
 # },
 # { "keys": ["enter"], "command": "continue_comment_on_next_line",
 #     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.block.documentation.cs", "match_all": true },
+#         { "key": "selector", "operator": "equal", "operand": "comment.line, comment.block.documentation.cs", "match_all": true },
 #         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
-#     ],
-# },
-# { "keys": ["enter"], "command": "continue_comment_on_next_line",
-#     "context": [
-#         { "key": "selector", "operator": "equal", "operand": "comment.line", "match_all": true },
-#         { "key": "auto_complete_visible", "operator": "equal", "operand": false },
+#         { "key": "preceding_text", "operator": "not_regex_contains", "operand": "^$", "match_all": true },
 #     ],
 # },
 # { "keys": ["delete"], "command": "join_line_below",
