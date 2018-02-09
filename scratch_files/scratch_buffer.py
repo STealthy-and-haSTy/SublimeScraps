@@ -79,7 +79,7 @@ class ScratchBufferCommand(sublime_plugin.WindowCommand):
 
         def pick(idx):
             if idx != -1:
-                self.new_view(items[idx][1])
+                self.run(syntax=items[idx][1])
 
         self.window.show_quick_panel(
             items,
