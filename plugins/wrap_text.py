@@ -25,7 +25,7 @@ class WrapTextCommand(sublime_plugin.TextCommand):
     - Wrapping line comments and anything else at the same time
       will cause the entire selection to become line commented.
     """
-    def run(self, edit, width=0):
+    def run(self, edit, width=0, keep_selection=False):
         # use the narrowest ruler from the view if no width specified, or default to 72 if no rulers are enabled
         width = width or next(iter(self.view.settings().get('rulers', [])), 72)
         # determine the indentation style used in the view
@@ -95,8 +95,10 @@ class WrapTextCommand(sublime_plugin.TextCommand):
             
             # replace the selected text with the re-wrapped text
             self.view.replace(edit, sel, text + '\n')
-            # resize the selection to match the new wrapped text size
-            new_sel.append(sublime.Region(sel.begin(), sel.begin() + len(text)))
+            # resize the selection to match the new wrapped text size - or move it to the end of the wrapped text
+            end_pos = sel.begin() + len(text)
+            start_pos = sel.begin() if keep_selection else end_pos
+            new_sel.append(sublime.Region(start_pos, end_pos))
         self.view.sel().clear()
         self.view.sel().add_all(new_sel)
 
