@@ -59,3 +59,7 @@ The layout of the files here is:
    how a `sublime-build` file is used. This allows for things like custom
    variables in command lines and selecting the command to build at runtime
    instead of hard coding it.
+
+ * [session_cleaner](session_cleaner/README.md) is a Python script that cleans
+   the recent worksapces section of the `Session.sublime_session` file so that
+   projects that no longer exist don't show up in the project switch panel.
