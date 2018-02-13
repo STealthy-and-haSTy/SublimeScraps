@@ -28,13 +28,9 @@ import sys
 
 def sublime_data_dir():
     """
-    Obtain the path to the Sublime Text 3 Data directory. If the script was
-    provided any arguments, the first one is assumed to be the data directory
-    to work with; otherwise the Data directory is selected by platform.
+    Obtain the path to the Sublime Text 3 Data directory in a platform
+    independent way. This doesn't work for portable installs however.
     """
-    if len(sys.argv) > 1:
-        return sys.argv[0]
-
     if sys.platform.startswith("linux"):
         return os.path.expanduser("~/.config/sublime-text-3/")
     elif sys.platform.startswith("win"):
@@ -43,7 +39,7 @@ def sublime_data_dir():
     return os.path.expanduser("~/Library/Application Support/Sublime Text 3/")
 
 
-def clean_session():
+def clean_session(data_dir):
     """
     Load the session file from the data directory and remove all of the
     projects that no longer exist on disk, writing the session back.
@@ -51,7 +47,6 @@ def clean_session():
     This attempts to keep a backup of the existing session file and creates a
     temporary session first in case things go pear shaped.
     """
-    data_dir = sublime_data_dir()
     session_file = os.path.join(data_dir, "Local", "Session.sublime_session")
     tmp_file = session_file + ".tmp"
     bkp_file = session_file + datetime.now().strftime(".%Y%m%d_%H%M%S")
@@ -63,8 +58,9 @@ def clean_session():
 
         workspaces = session["workspaces"]["recent_workspaces"]
         present, missing = [], []
-        for f in workspaces:
-            present.append(f) if os.path.isfile(f) else missing.append(f)
+        for file in workspaces:
+            status_list = present if os.path.isfile(file) else missing
+            status_list.append(file)
 
         if len(present) == len(workspaces):
             return logging.info("No missing projects found")
@@ -94,10 +90,10 @@ def clean_session():
         logging.exception("Error replacing session information")
 
 
-def main():
+def main(argv):
     logging.basicConfig(level=logging.INFO)
-    clean_session()
+    clean_session(argv[1] if len(argv) > 1 else sublime_data_dir())
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
