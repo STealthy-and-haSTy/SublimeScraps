@@ -10,13 +10,13 @@ command line argument is provided, it's assumed to the location of the Data
 folder to use, which can be relative to the current directory or an absolute
 path.
 
-This creates the new session file (if any) to a temporary file first and them
+This creates the new session file (if any) to a temporary file first and then
 renames the session into place. During this process the original session file
 is stored as a backup in a file with the current date and time appended.
 
 This script shouldn't be run while Sublime is actively running, since the
 session information will be written out to disk when Sublime terminates, which
-will cause the changes to be ignored.
+will cause the changes made by this script to be ignored.
 """
 
 from datetime import datetime
