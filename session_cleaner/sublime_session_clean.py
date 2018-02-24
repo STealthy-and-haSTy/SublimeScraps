@@ -39,6 +39,62 @@ def sublime_data_dir():
     return os.path.expanduser("~/Library/Application Support/Sublime Text 3/")
 
 
+def load_session(file_name):
+    """
+    Load and parse the Sublime session file provided, returning back a tuple
+    containing the overall session file and the recent workspaces. The tuple
+    contains None if there are errors loading or parsing the session file.
+    """
+    try:
+        with open(file_name, encoding="utf-8") as file:
+            session = json.load(file)
+            return (session, session["workspaces"]["recent_workspaces"])
+
+    except FileNotFoundError:
+        logging.exception("Unable to locate session file")
+
+    except ValueError:
+        logging.exception("Session file could not be parsed; invalid JSON?")
+
+    except KeyError:
+        logging.exception("No workspaces key found in session file")
+
+    return (None, None)
+
+
+def save_session(file_name, session):
+    """
+    Save the session dictionary back to disk in the appropriate folder using
+    a temporary name. The name of the file is returned if the new session is
+    successfully saved.
+    """
+    file_name = file_name + ".tmp"
+    try:
+        with open(file_name, "w", encoding="utf-8") as file:
+            json.dump(session, file,
+                      indent="\t",
+                      ensure_ascii=False,
+                      sort_keys=True,
+                      separators=(',', ': '))
+            return file_name
+
+    except TypeError:
+        logging.exception("Session file contains non-basic data")
+
+    except OSError:
+        logging.exception("Error saving new session file")
+
+    return None
+
+
+def workspace_exists(file_name):
+    """
+    Given a file name that represents a Sublime project or workspace, return a
+    determination as to whether that project is still valid or not.
+    """
+    return os.path.isfile(file_name)
+
+
 def clean_session(data_dir):
     """
     Load the session file from the data directory and remove all of the
@@ -52,42 +108,33 @@ def clean_session(data_dir):
     bkp_file = session_file + datetime.now().strftime(".%Y%m%d_%H%M%S")
 
     logging.info("Using Data Directory: %s", data_dir)
-    try:
-        with open(session_file, encoding="utf-8") as file:
-            session = json.load(file)
-
-        workspaces = session["workspaces"]["recent_workspaces"]
+    session, workspaces = load_session(session_file)
+    if session is not None:
         present, missing = [], []
         for file in workspaces:
-            status_list = present if os.path.isfile(file) else missing
+            status_list = present if workspace_exists(file) else missing
             status_list.append(file)
 
-        if len(present) == len(workspaces):
-            return logging.info("No missing projects found")
+        if len(present) != len(workspaces):
+            for file in missing:
+                logging.info("  %s", file)
+            logging.info("Expunged %d workspace(s)", len(missing))
 
-        for file in missing:
-            logging.info("  %s", file)
-        logging.info("Expunged %d workspace(s)", len(missing))
+            workspaces[:] = present
 
-        workspaces[:] = present
-        with open(tmp_file, "w", encoding="utf-8") as file:
-            json.dump(session, file,
-                      indent="\t",
-                      ensure_ascii=False,
-                      sort_keys=True,
-                      separators=(',', ': '))
+            tmp_file = save_session(session_file, session)
+            if tmp_file is not None:
+                try:
+                    os.rename(session_file, bkp_file)
+                    os.rename(tmp_file, session_file)
 
-        os.rename(session_file, bkp_file)
-        os.rename(tmp_file, session_file)
+                    logging.info("New session file saved")
 
-        logging.info("New session file saved")
+                except OSError:
+                    logging.exception("Error replacing session file")
 
-    except FileNotFoundError:
-        logging.exception("Unable to locate session file")
-    except KeyError:
-        logging.exception("Unable to find recent workspace list")
-    except OSError:
-        logging.exception("Error replacing session information")
+        else:
+            logging.info("No missing projects found")
 
 
 def main(argv):
