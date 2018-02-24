@@ -19,8 +19,8 @@ for projects that no longer exist.
 In order to use this script, you must have Python 3 installed on your computer,
 since this is an external script and not a Sublime plugin. Additionally, make
 sure that Sublime isn't running while you run the script, since the session
-file is persisted to disk on exit, which will make Sublime restore its in-
-memory version of the session.
+file is persisted to disk on exit, which will make Sublime restore its
+in-memory version of the session.
 
 If you're not running a Portable version of Sublime, you can just run the
 script directly in the manner that you would normally execute a Python script
@@ -28,22 +28,34 @@ on your platform. The script will determine what platform you're on and use
 that information to locate the Sublime session file.
 
 If you are using a Portable version of Sublime, then you need to invoke the
-script with a command line argument that tells it where the Data directory is,
+script with the `--data-dir` argument to tell it where the Data directory is,
 so that the Sublime session file can be found. This can be a fully qualified
 path or a path relative to the current working directory.
 
-The script works by loading up the session, finding the list of recent work
-spaces, and then checking each one to see if it still exists or not. Any files
-that no longer exist will be written to the console and removed from the loaded
-session information.
+The script works by loading up the session, finding the list of recent
+workspaces, and then checking each one to see if it still exists or not. Any
+files that no longer exist will be written to the console and removed from the
+loaded session information.
 
 If any missing session files are found, the new session information is written
-out to disk. This will first create a temporary file, then rename the existing
-session file to a backup file name before renaming the temporary file into
-position.
+out to disk after first making a backup of the existing session file. You can
+specify the `--dry-run` parameter to the script to have it tell you what it
+would do without actually doing it.
 
-Note that no cleanup is done of session backups, so you may need to go into
-your Sublime Data directory and clean up the backups from time to time.
+Something to note is that testing for the existence of a file on a network
+share or external disk that is not currently connected or mounted results in a
+determination that the file does not exist (technically accurate but somewhat
+unhelpful).
+
+As such, if you tend to use projects stored in those locations, you may want to
+use `--dry-run` to verify that existing but currently unavailable workspaces are
+not going to be removed.
+
+If you don't heed that advice, you can always get your previous session back
+from the session backups.
+
+Lastly, no cleanup is done of session backups, so you may need to go into your
+Sublime Data directory and clean up the backups from time to time.
 
 
 ### Bonus Script

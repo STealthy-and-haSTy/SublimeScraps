@@ -19,11 +19,13 @@ session information will be written out to disk when Sublime terminates, which
 will cause the changes made by this script to be ignored.
 """
 
+import argparse
 from datetime import datetime
 import json
 import logging
 import os
 import sys
+
 
 
 def sublime_data_dir():
@@ -103,7 +105,7 @@ def workspace_exists(file_name):
     return os.path.isfile(file_name)
 
 
-def clean_session(data_dir):
+def clean_session(data_dir, dry_run):
     """
     Load the session file from the data directory and remove all of the
     projects that no longer exist on disk, writing the session back.
@@ -129,6 +131,9 @@ def clean_session(data_dir):
                 logging.info("  %s", file)
             logging.info("Expunged %d workspace(s)", len(missing))
 
+            if dry_run:
+                return
+
             workspaces[:] = present
 
             tmp_file = save_session(session_file, session)
@@ -146,10 +151,17 @@ def clean_session(data_dir):
             logging.info("No missing projects found")
 
 
-def main(argv):
-    logging.basicConfig(level=logging.INFO)
-    clean_session(argv[1] if len(argv) > 1 else sublime_data_dir())
-
-
 if __name__ == "__main__":
-    main(sys.argv)
+    logging.basicConfig(level=logging.INFO)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--data-dir",
+                        help="Specify the Sublime Data directory to use",
+                        default=sublime_data_dir())
+    parser.add_argument("--dry-run",
+                        help="Run clean but don't write the new session file",
+                        action="store_true")
+
+    args = parser.parse_args()
+
+    clean_session(args.data_dir, args.dry_run)
