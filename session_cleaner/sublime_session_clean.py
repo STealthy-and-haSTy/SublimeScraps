@@ -92,6 +92,14 @@ def workspace_exists(file_name):
     Given a file name that represents a Sublime project or workspace, return a
     determination as to whether that project is still valid or not.
     """
+    if sys.platform.startswith("win") and not file_name.startswith("//"):
+        # On Windows, Sublime stores local paths as '/drive/path/file/', which
+        # Python doesn't recognize as valid, so we need to rewrite them. UNC
+        # paths work OK (presuming the network is up to it).
+        file_name = "{drive}:{path}".format(
+            drive=file_name[1],
+            path=file_name[2:])
+
     return os.path.isfile(file_name)
 
 
@@ -116,6 +124,7 @@ def clean_session(data_dir):
             status_list.append(file)
 
         if len(present) != len(workspaces):
+            logging.info("Expunging defunct workspaces:")
             for file in missing:
                 logging.info("  %s", file)
             logging.info("Expunged %d workspace(s)", len(missing))
