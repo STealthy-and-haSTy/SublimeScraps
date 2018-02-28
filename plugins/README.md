@@ -39,8 +39,9 @@ of each file for more information on full usage.
 
 * [generate_cmd_list.py](generate_cmd_list.py) is a sample command that
    introspects the Sublime runtime environment and provides a textual display
-   of all known commands, sorted out by package and type (`ApplicationCommand`,
-   `WindowCommand` or `TextCommand`).
+   of all known commands (except for those implemented directly in the Sublime
+   core), sorted out by package and type (`ApplicationCommand`, `WindowCommand`
+   or `TextCommand`).
 
    Each command also includes the arguments the command takes and any defaults
    they might have, as well as the associated documentation comment.

@@ -6,20 +6,25 @@ import sublime_plugin
 #
 # This plugin is a variation on the version referenced in the Stack Overflow
 # answer above, and creates an output view in the current window that contains
-# information on all commands currently known to Sublime.
-
+# information on all commands currently known to Sublime (except commands in
+# the core, which are not exposed for runtime introspection).
+#
 # The output splits the commands first by the package that they're defined in
 # and then by their type. Each command is shown with arguments accepted,
 # default values for arguments, and a description of the command if it is
 # available.
-
+#
 # This information is gained via introspection and so it is potentially
 # incomplete and subject to the whims of the developer that generated the
 # command to a large degree.
-
-# Note that not all commands defined by packages are meant to be used by the
-# user directly in any meaningful capacity, but this plugin has no way of
-# differentiating those from "normal" commands
+#
+# Something to note is that this won't pick up commands in the Sublime core
+# as they're not implemented by direct plugin code and are thus not exposed via
+# the mechanism that this plugin uses.
+#
+# It should also be noted that not all commands defined by packages are meant
+# to be used by the user directly in any meaningful capacity, but this plugin
+# has no way of differentiating those from "normal" commands
 
 import inspect
 import textwrap
