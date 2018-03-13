@@ -10,8 +10,8 @@ added directly to the generated package, with the following exceptions:
     dependency that is creating the bootstrap package; that is, the created
     package inherits the version of the dependency that created it.
 
- 2. Files are added with the same name that they are seen here, but any that
-    have an extension of `.sublime-ignored` will have that suffix removed 
+ 2. Files are added with the same file name that they are seen here, but any
+    that have an extension of `.sublime-ignored` will have that suffix removed
     before they are added to the package. This keeps Sublime from seeing those
-    files as potential resources in cases where the dependency is stored
-    inside of the `Packages` folder.
+    files as potential resources in cases where the dependency is stored inside
+    of the `Packages` folder.
