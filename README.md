@@ -63,3 +63,8 @@ The layout of the files here is:
  * [session_cleaner](session_cleaner/README.md) is a Python script that cleans
    the recent worksapces section of the `Session.sublime_session` file so that
    projects that no longer exist don't show up in the project switch panel.
+
+ * [package_bootstrap](package_bootstrap/README.md) is example code that shows
+   how one might construct a Sublime Text dependency that contains Sublime
+   resources and have the dependency bootstrap those resources into a
+   `sublime-package` package file and keep it up to date.

@@ -1,0 +1,4 @@
+[
+    { "caption": "-", "id": "end" },
+    { "caption": "A Test Command", "command": "bootstrap_test" }
+]
