@@ -67,7 +67,7 @@ added to the bootstrapped package needs to match the value in the variable so
 that the code knows where to look for files.
 
 For more information on this process in general, see the section below on how
-the code words.
+the code works.
 
 
 Usage Requirements
