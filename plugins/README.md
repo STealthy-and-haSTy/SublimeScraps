@@ -49,7 +49,7 @@ of each file for more information on full usage.
  * [log_toggler.py](log_toggler.py) is an example `ApplicationCommand` that
    makes it easier to toggle the state of logging for commands, input and
    result regular expressions (useful for testing error capturing in a build
-   system) without having to drop the the console. It's also a demonstration on
+   system) without having to drop to the console. It's also a demonstration on
    how to use the `is_checked` and `description` methods of the command classes
    to give your command a default caption or display as checked in the menu.
 

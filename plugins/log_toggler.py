@@ -42,21 +42,28 @@ import sublime_plugin
     #     "caption": "Log Result Regex",
     #     "args": {"log_type": "log_result_regex"},
     # },
+    # {
+    #     "command": "toggle_sublime_logging",
+    #     "checkbox": true,
+    #     "caption": "Log Build Systems",
+    #     "args": {"log_type": "log_build_systens"},
+    # }
 # ]
 
 
 _log_state = {
     "log_commands": False,
     "log_input": False,
-    "log_result_regex": False
+    "log_result_regex": False,
+    "log_build_systems": False
 }
 
 
 class ToggleSublimeLoggingCommand(sublime_plugin.ApplicationCommand):
     """
-    Toggle the state of sublime's internal logging to the console based on the
+    Toggle the state of Sublime's internal logging to the console based on the
     log_type parameter, which should be one of the three sublime module API
-    endpoints, "log_command", "log_inoput" or "log_result_regex".
+    endpoints, "log_command", "log_input" or "log_result_regex".
     """
     def run(self, log_type):
         _log_state[log_type] = not _log_state[log_type]
