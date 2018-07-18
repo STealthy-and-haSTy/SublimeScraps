@@ -37,7 +37,7 @@ of each file for more information on full usage.
    Files result buffer and have the line numbers that precede the text be
    removed automatically.
 
-* [generate_cmd_list.py](generate_cmd_list.py) is a sample command that
+ * [generate_cmd_list.py](generate_cmd_list.py) is a sample command that
    introspects the Sublime runtime environment and provides a textual display
    of all known commands (except for those implemented directly in the Sublime
    core), sorted out by package and type (`ApplicationCommand`, `WindowCommand`
@@ -45,6 +45,13 @@ of each file for more information on full usage.
 
    Each command also includes the arguments the command takes and any defaults
    they might have, as well as the associated documentation comment.
+
+ * [log_toggler.py](log_toggler.py) is an example `ApplicationCommand` that
+   makes it easier to toggle the state of logging for commands, input and
+   result regular expressions (useful for testing error capturing in a build
+   system) without having to drop to the console. It's also a demonstration on
+   how to use the `is_checked` and `description` methods of the command classes
+   to give your command a default caption or display as checked in the menu.
 
  * [minimap_toggler.py](minimap_toggler.py) is a simple example of having the
    sublime text minimap turn itself off only for files of a certain syntax.
