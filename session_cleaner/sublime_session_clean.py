@@ -48,7 +48,7 @@ def sublime_data_dir(prog):
     if sys.platform.startswith("linux"):
         return os.path.expanduser(_data_dirs[prog]["linux"])
     elif sys.platform.startswith("win"):
-        return os.path.expanduser(_data_dirs[prog]["win"])
+        return os.path.expandvars(_data_dirs[prog]["win"])
 
     return os.path.expanduser(_data_dirs[prog]["osx"])
 
