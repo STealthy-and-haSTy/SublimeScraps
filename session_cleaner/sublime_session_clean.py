@@ -1,14 +1,12 @@
 #!/bin/env python3
 """
-Load the Session.sublime_session file from the Sublime Text 3 data directory
-and remove all of the recent workspaces that refer to projects that no longer
-reside on disk.
+Load the Session.sublime_session file from either the Sublime Text 3 or Sublime
+Merge data directory and remove all of the recent workspaces/git repositories
+that  refer to items that no longer reside on disk.
 
-If no command line arguments are provided, the script will look for the session
-file in the data directory location standard for the current platform. When a
-command line argument is provided, it's assumed to the location of the Data
-folder to use, which can be relative to the current directory or an absolute
-path.
+If no data directory is provided on the command line, the script will look for
+the session file in the data directory location standard for the appropriate
+application on the current platform.
 
 This creates the new session file (if any) to a temporary file first and then
 renames the session into place. During this process the original session file
@@ -27,30 +25,47 @@ import os
 import sys
 
 
+_data_dirs = {
+    "text": {
+        "linux": "~/.config/sublime-text-3/",
+        "win": "$APPDATA\\Sublime Text 3\\",
+        "osx": "~/Library/Application Support/Sublime Text 3/"
+    },
 
-def sublime_data_dir():
+    "merge": {
+        "linux": "~/.config/sublime-merge/",
+        "win": "$APPDATA\\Sublime Merge\\",
+        "osx": "~/Library/Application Support/Sublime Merge/"
+    }
+}
+
+
+def sublime_data_dir(prog):
     """
-    Obtain the path to the Sublime Text 3 Data directory in a platform
-    independent way. This doesn't work for portable installs however.
+    Obtain the path to the Sublime Data directory for the given program in a
+    platform independent way. This doesn't work for portable installs however.
     """
     if sys.platform.startswith("linux"):
-        return os.path.expanduser("~/.config/sublime-text-3/")
+        return os.path.expanduser(_data_dirs[prog]["linux"])
     elif sys.platform.startswith("win"):
-        return os.path.expandvars("$APPDATA\\Sublime Text 3\\")
+        return os.path.expanduser(_data_dirs[prog]["win"])
 
-    return os.path.expanduser("~/Library/Application Support/Sublime Text 3/")
+    return os.path.expanduser(_data_dirs[prog]["osx"])
 
 
-def load_session(file_name):
+def load_session(file_name, program):
     """
     Load and parse the Sublime session file provided, returning back a tuple
-    containing the overall session file and the recent workspaces. The tuple
+    containing the overall session file and the recent items. The tuple
     contains None if there are errors loading or parsing the session file.
     """
     try:
         with open(file_name, encoding="utf-8") as file:
             session = json.load(file)
-            return (session, session["workspaces"]["recent_workspaces"])
+
+            items = (session["recent"] if program == "merge"
+                else session["workspaces"]["recent_workspaces"])
+            return (session, items)
 
     except FileNotFoundError:
         logging.exception("Unable to locate session file")
@@ -59,7 +74,7 @@ def load_session(file_name):
         logging.exception("Session file could not be parsed; invalid JSON?")
 
     except KeyError:
-        logging.exception("No workspaces key found in session file")
+        logging.exception("Session file could not be parsed; invalid format?")
 
     return (None, None)
 
@@ -89,26 +104,28 @@ def save_session(file_name, session):
     return None
 
 
-def workspace_exists(file_name):
+def item_exists(path, program):
     """
-    Given a file name that represents a Sublime project or workspace, return a
-    determination as to whether that project is still valid or not.
+    Given a path that represents a workspace or repository item (based on
+    program), return a determination as to whether that item is still valid or
+    not.
     """
-    if sys.platform.startswith("win") and not file_name.startswith("//"):
+    if sys.platform.startswith("win") and not path.startswith("//"):
         # On Windows, Sublime stores local paths as '/drive/path/file/', which
         # Python doesn't recognize as valid, so we need to rewrite them. UNC
         # paths work OK (presuming the network is up to it).
-        file_name = "{drive}:{path}".format(
-            drive=file_name[1],
-            path=file_name[2:])
+        path = "{drive}:{path}".format(
+            drive=path[1],
+            path=path[2:])
 
-    return os.path.isfile(file_name)
+    return os.path.isdir(path) if program == "merge" else os.path.isfile(path)
 
 
-def clean_session(data_dir, dry_run):
+def clean_session(data_dir, program, dry_run):
     """
-    Load the session file from the data directory and remove all of the
-    projects that no longer exist on disk, writing the session back.
+    Load the session file from the data directory for the specified program and
+    remove all of the projects/repositories that no longer exist on disk,
+    writing the session back.
 
     This attempts to keep a backup of the existing session file and creates a
     temporary session first in case things go pear shaped.
@@ -118,23 +135,23 @@ def clean_session(data_dir, dry_run):
     bkp_file = session_file + datetime.now().strftime(".%Y%m%d_%H%M%S")
 
     logging.info("Using Data Directory: %s", data_dir)
-    session, workspaces = load_session(session_file)
+    session, check_items = load_session(session_file, program)
     if session is not None:
         present, missing = [], []
-        for file in workspaces:
-            status_list = present if workspace_exists(file) else missing
-            status_list.append(file)
+        for item in check_items:
+            status_list = present if item_exists(item, program) else missing
+            status_list.append(item)
 
-        if len(present) != len(workspaces):
-            logging.info("Expunging defunct workspaces:")
-            for file in missing:
-                logging.info("  %s", file)
-            logging.info("Expunged %d workspace(s)", len(missing))
+        if len(present) != len(check_items):
+            logging.info("Expunging defunct items:")
+            for item in missing:
+                logging.info("  %s", item)
+            logging.info("Expunged %d item(s)", len(missing))
 
             if dry_run:
                 return
 
-            workspaces[:] = present
+            check_items[:] = present
 
             tmp_file = save_session(session_file, session)
             if tmp_file is not None:
@@ -148,20 +165,26 @@ def clean_session(data_dir, dry_run):
                     logging.exception("Error replacing session file")
 
         else:
-            logging.info("No missing projects found")
+            logging.info("No missing items found")
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--program",
+                        help="Specify the program to clean [Default: text]",
+                        choices=["text", "merge"],
+                        default="text")
     parser.add_argument("-d", "--data-dir",
-                        help="Specify the Sublime Data directory to use",
-                        default=sublime_data_dir())
+                        help="Specify the Sublime Data directory to use")
     parser.add_argument("--dry-run",
                         help="Run clean but don't write the new session file",
                         action="store_true")
 
     args = parser.parse_args()
 
-    clean_session(args.data_dir, args.dry_run)
+    # Need to set the default last so it can pick up the program
+    args.data_dir = args.data_dir or sublime_data_dir(args.program)
+
+    clean_session(args.data_dir, args.program, args.dry_run)
