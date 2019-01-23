@@ -104,12 +104,26 @@ def save_session(file_name, session):
     return None
 
 
-def item_exists(path, program):
+def item_path(item, program):
+    """
+    More recent versions of Sublime Merge use a recent list that contains state
+    for the repository instead of just a path; this determines, based on an
+    item and the program in use, what the path inside it is.
+    """
+    if program == "merge" and isinstance(item, dict):
+        return item.get("path")
+
+    return item
+
+
+def item_exists(item, program):
     """
     Given a path that represents a workspace or repository item (based on
     program), return a determination as to whether that item is still valid or
     not.
     """
+    path = item_path(item, program)
+
     if sys.platform.startswith("win") and not path.startswith("//"):
         # On Windows, Sublime stores local paths as '/drive/path/file/', which
         # Python doesn't recognize as valid, so we need to rewrite them. UNC
@@ -145,7 +159,7 @@ def clean_session(data_dir, program, dry_run):
         if len(present) != len(check_items):
             logging.info("Expunging defunct items:")
             for item in missing:
-                logging.info("  %s", item)
+                logging.info("  %s", item_path(item, program))
             logging.info("Expunged %d item(s)", len(missing))
 
             if dry_run:
