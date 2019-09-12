@@ -109,3 +109,24 @@ of each file for more information on full usage.
    useful - for example, wrapping line comments! - so it became quite a lot more
    advanced. It now also makes it easier to join consecutive comment lines
    together by pressing <kbd>delete</kbd> at the end of the first line.
+
+ * [open_file_env.py](open_file_env.py) implements an enhanced version of the
+   `open_file` command in Sublime that will expand all of the `sublime-build`
+   variables as well as environment variables in it's `file` argument. Useful
+   for creating key bindings or menu entries to open files in the context of
+   your current project, for example.
+
+ * [open_file_encoded.py](open_file_encoded.py) is an implementation of the
+   `open_file` command in Sublime that allows you to encode a position to open
+   the file at by adding `:line` or `:line:col` to the file name, as you can on
+   the command line.
+
+ * [menu_exec.py](menu_exec.py) is a simple `exec` command variant for running
+   external tools from outside of build systems. It does what `exec` does, but
+   also expands variables in its arguments like a `sublime-build`file  would.
+   You can also stop the build output panel from displaying, if desired.
+
+ * [scoped_snippet.py](scoped_snippet.py) is an enhanced version of the
+   `insert_snippet` command that allows you to specify a scope where the
+   snippet will apply, for use in menu or command palette entries, where it's
+   not otherwise possible to constrain the scope.
