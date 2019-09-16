@@ -21,16 +21,17 @@ from Default.exec import ExecCommand
 #
 # This variant of the command expands variables the same way as they would be
 # expanded in a build system, and also supports a custom argument named
-# override_panel to temporarily invert the state of the show_panel_on_build
-# setting.
+# show_panel that controls if the output panel should be displayed or not. A
+# value of None honors the show_panel_on_build setting; set it to True or False
+# to explicitly show or not show the panel.
 
 class MenuExecCommand(ExecCommand):
     """
     A simple wrapper around the internal exec command that expands all of the
     normal build variables prior to the build, while also being able to
-    temporarily supress the build output panel if desired.
+    temporarily suppress the build output panel if desired.
     """
-    def run(self, **kwargs):
+    def run(self, show_panel=None, **kwargs):
         variables = self.window.extract_variables()
 
         for key in ("cmd", "shell_cmd", "working_dir"):
@@ -38,14 +39,14 @@ class MenuExecCommand(ExecCommand):
                 kwargs[key] =  sublime.expand_variables(kwargs[key], variables)
 
         settings = sublime.load_settings("Preferences.sublime-settings")
-        show_panel = settings.get("show_panel_on_build")
+        pref_var = settings.get("show_panel_on_build")
 
-        override = kwargs.pop("override_panel", False)
+        show_panel = pref_var if show_panel is None else show_panel
 
-        if override:
-            settings.set("show_panel_on_build", not show_panel)
+        if show_panel != pref_var:
+            settings.set("show_panel_on_build", show_panel)
 
         super().run(**kwargs)
 
-        if override:
-            settings.set("show_panel_on_build", show_panel)
+        if show_panel != pref_var:
+            settings.set("show_panel_on_build", pref_var)
