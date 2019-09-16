@@ -25,5 +25,5 @@ class InsertScopedSnippetCommand(sublime_plugin.TextCommand):
         if scope is None:
             return True
 
-        match = [self.view.match_selector(s.b, scope) for s in self.view.sel()]
+        match = (self.view.match_selector(s.b, scope) for s in self.view.sel())
         return all(match) if match_all else any(match)
