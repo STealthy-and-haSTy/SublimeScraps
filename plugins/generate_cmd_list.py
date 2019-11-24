@@ -149,8 +149,9 @@ class GenerateCommandListCommand(sublime_plugin.WindowCommand):
                     indent=indent))
 
                 for pkg_info in cmd_list:
-                    self.append("{indent}{cmd} {args}\n{doc}\n".format(
-                        pkg=pkg_info.get("package"),
+                    self.append("{indent}{pkg}.{mod}.{cmd} {args}\n{doc}\n".format(
+                        pkg=pkg_name,
+                        mod=pkg_info.get("mod"),
                         cmd=pkg_info.get("name"),
                         args=pkg_info.get("args"),
                         doc=textwrap.indent(pkg_info.get("docs"), indent*3),
@@ -196,6 +197,7 @@ class GenerateCommandListCommand(sublime_plugin.WindowCommand):
         return {
             "type": cmd_type,
             "pkg": command.__module__.split(".")[0],
+            "mod": ".".join(command.__module__.split(".")[1:]),
             "name": self.get_name(command),
             "args": self.get_args(command),
             "docs": self.get_docs(command)
