@@ -1,4 +1,4 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 """
 Load the Session.sublime_session file from either the Sublime Text 3 or Sublime
 Merge data directory and remove all of the recent workspaces/git repositories
