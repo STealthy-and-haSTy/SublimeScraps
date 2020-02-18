@@ -174,6 +174,9 @@ def clean_session(data_dir, program, dry_run):
                     os.rename(tmp_file, session_file)
 
                     logging.info("New session file saved")
+                    logging.info("Previous session backed up to: DATA_DIR%s%s" % (
+                        os.path.sep,
+                        os.path.relpath(bkp_file, args.data_dir)))
 
                 except OSError:
                     logging.exception("Error replacing session file")
