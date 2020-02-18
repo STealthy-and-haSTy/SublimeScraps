@@ -188,20 +188,40 @@ def clean_session(data_dir, program, dry_run):
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--program",
+
+    parser = argparse.ArgumentParser(description="Clean Sublime Text/Merge session files",
+                                     epilog="At least one cleanup action must be selected",
+                                     prefix_chars="-+")
+    parser.add_argument("--program", "-p",
                         help="Specify the program to clean [Default: text]",
                         choices=["text", "merge"],
                         default="text")
-    parser.add_argument("-d", "--data-dir",
+    parser.add_argument("--data-dir", "-d",
                         help="Specify the Sublime Data directory to use")
+
     parser.add_argument("--dry-run",
                         help="Run clean but don't write the new session file",
                         action="store_true")
 
-    args = parser.parse_args()
+    actions = parser.add_argument_group("Available Cleanup Actions")
 
-    # Need to set the default last so it can pick up the program
+    actions.add_argument("--workspaces", "-w",
+                        help="Clean up recently used workspaces, projects and repositories",
+                        action="store_true")
+
+    actions.add_argument("--files", "-f",
+                        help="Clean up recently used files",
+                        action="store_true")
+
+    actions.add_argument("--folders", "-o",
+                        help="Clean up recently used folders [Default: False]",
+                        action="store_true")
+
+    args = parser.parse_args()
+    if not any([args.workspaces, args.files, args.folders]):
+        parser.error("You must specify at least one cleanup option")
+
+    # Need to set the default data_dir last so it can pick up the program.
     args.data_dir = args.data_dir or sublime_data_dir(args.program)
 
     clean_session(args.data_dir, args.program, args.dry_run)
