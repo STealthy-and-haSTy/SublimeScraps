@@ -10,11 +10,17 @@ class PipeTextCommand(sublime_plugin.TextCommand):
        - to the specified shell command.
        Useful for formatting XML or JSON in a quick and easy manner.
        i.e. a workaround for https://github.com/sublimehq/sublime_text/issues/3294
+       This command requires Python >= 3.5, and therefore, ST build >= 4050, and for the
+       package to have opted in to the Python 3.8 plugin host. (The User package is
+       automatically opted-in.)
     """
     def run(self, edit, shell_command):
-        if all((region.empty() for region in self.view.sel())):
+        # if not all selections are non-empty
+        if not all(self.view.sel()):
+            # use the entire buffer instead of the selections
             regions = [sublime.Region(0, self.view.size())]
         else:
+            # use the user's selections
             regions = self.view.sel()
 
         failures = False
