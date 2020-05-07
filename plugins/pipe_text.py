@@ -72,7 +72,7 @@ class PipeTextCommand(sublime_plugin.TextCommand):
             p, time_elapsed = execute_with_stdin(cmd, shell, text)
 
             # TODO: also report the selection index?
-            log(f'command "{repr(cmd)}" executed with return code {str(p.returncode)} in {time_elapsed * 1000:.3f}ms')
+            log(f'command "{cmd!r}" executed with return code {p.returncode} in {time_elapsed * 1000:.3f}ms')
 
             if p.returncode == 0:
                 self.view.replace(edit, region, p.stdout)
