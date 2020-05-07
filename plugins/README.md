@@ -130,3 +130,11 @@ of each file for more information on full usage.
    `insert_snippet` command that allows you to specify a scope where the
    snippet will apply, for use in menu or command palette entries, where it's
    not otherwise possible to constrain the scope.
+
+ * [pipe_text.py](pipe_text.py) is a simple demonstration of how one can pipe
+   the contents of the selection(s) or active buffer to the stdin of an
+   external shell command, and replace those selections with the stdout which
+   the program returns. This is useful for things like formatting XML, JSON
+   etc. when the reindent command can't be used (because all the text is on
+   one line etc.) and without having to wait for some slow Python program to
+   parse the text.
