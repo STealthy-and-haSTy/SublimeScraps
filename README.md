@@ -5,7 +5,7 @@ This repository contains a mixed bag of simple Sublime Text 3 plugin examples
 and customizations that are probably better stored as gists, but what can I
 say, I'm a rebel.
 
-Some of the contents are are customizations that I use myself that others may
+Some of the contents are customizations that I use myself that others may
 find useful, possibly as a jumping off point for their own user specific
 customizations.
 
@@ -61,7 +61,7 @@ The layout of the files here is:
    instead of hard coding it.
 
  * [session_cleaner](session_cleaner/README.md) is a Python script that cleans
-   the recent worksapces section of the `Session.sublime_session` file so that
+   the recent workspaces section of the `Session.sublime_session` file so that
    projects that no longer exist don't show up in the project switch panel.
 
  * [package_bootstrap](package_bootstrap/README.md) is example code that shows
