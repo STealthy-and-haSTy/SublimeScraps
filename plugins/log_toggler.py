@@ -46,7 +46,7 @@ import sublime_plugin
     #     "command": "toggle_sublime_logging",
     #     "checkbox": true,
     #     "caption": "Log Build Systems",
-    #     "args": {"log_type": "log_build_systens"},
+    #     "args": {"log_type": "log_build_systems"},
     # }
 # ]
 
