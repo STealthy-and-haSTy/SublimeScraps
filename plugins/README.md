@@ -24,12 +24,28 @@ of each file for more information on full usage.
 
 ### What they do
 
+ * [clear_console.py](clear_console.py) is a simple plugin that implements a
+   command that lets you clear the Sublime Text console. This is done by
+   manipulating the setting that controls how much history can be kept in the
+   console. The setting used was added in Sublime Text 4.
+
  * [double_click.py](double_click.py) is an example of how to use the Sublime
    API to emulate a double click somewhere in the view. This involves
    converting a caret position offset to window coordinates and calling a built
    in command that handles mouse clicks. This is useful for cases where double
    clicking would otherwise be the only way to access some functionality, but
    one doesn't want to have to move a hand off the keyboard to the mouse.
+
+ * [insert_to_column.py](insert_to_column.py) is a sample that was made for
+   someone so grumpy they never came back to say thanks, but their loss may be
+   your gain! It implements a command that causes whitespace to be inserted at
+   every cursor until it hits a specific column. Aligning columns and table
+   entries just got a bit easier.
+
+ * [eof_context.py](eof_context.py) is an example of implementing a custom key
+   binding context, which is used to control when a key binding should be
+   active. This one implements a context that lets you know if the cursor is
+   in the last line of the file or not.
 
  * [find_results_copy.py](find_results_copy.py) is an example of seamlessly
    expanding the capabilities of Sublime to make it work the way you want. This
@@ -98,6 +114,10 @@ of each file for more information on full usage.
    environment of Sublime while it's running to allow you to run Visual Studio
    commands in build systems.
 
+ * [local_font_size.py](local_font_size.py) provides commands that allow you to
+   change the font size of individual tabs instead of changing it globally,
+   which can be handy for things like code review or doing a presentation.
+
  * [toggle_setting_ext.py](toggle_setting_ext.py) is a version of the internal
    sublime `toggle_setting` command that can toggle any setting between any
    value, instead of just toggling a boolean setting off and on.
@@ -131,6 +151,11 @@ of each file for more information on full usage.
    snippet will apply, for use in menu or command palette entries, where it's
    not otherwise possible to constrain the scope.
 
+  * [snippets_with_selections.py](snippets_with_selections.py) is an enhanced
+    version of the `insert_snippet` command that allows the expanded text to
+    access each of many possible selections individually instead of one that
+    covers all selections.
+
  * [pipe_text.py](pipe_text.py) is a simple demonstration of how one can pipe
    the contents of the selection(s) or active buffer to the stdin of an
    external shell command, and replace those selections with the stdout which
@@ -138,3 +163,30 @@ of each file for more information on full usage.
    etc. when the reindent command can't be used (because all the text is on
    one line etc.) and without having to wait for some slow Python program to
    parse the text.
+
+ * [selectionless_scroll_lines.py](selectionless_scroll_lines.py) is something
+   that was requested by someone, though I can't find where the request came
+   from. It allows you to scroll the file using the keyboard without changing
+   the cursor locations.
+
+ * [selection_to_top.py](selection_to_top.py) is a quick little command I made
+   for making it easier to illustrate code samples in my YouTube videos; it
+   scrolls the current file so that the cursor is the first line in the view.
+
+ * [pattern_navigate.py](pattern_navigate.py) is a simple command that allows
+   you to easily jump to the next or previous location of a specified search
+   string. This is meant to be used in a macro, but you could also use it to
+   always jump to a known location (like a file footer, section header, etc).
+
+ * [scope_navigate.py](scope_navigate.py) is a command that allows you to jump
+   to the next or previous location of a given `scope` in the file. This could
+   be used to jump between comments, code blocks, etc.
+
+ * [update_last_edited.py](update_last_edited.py) is a quick plugin example that
+   can be used to easily update a "Last Edited On" type header in any source
+   file quickly and easily.
+
+ * [visible_multi_selection.py](visible_multi_selection.py) makes it easier to
+   visibly detect when there is more than one active cursor in the current file
+   by changing cursor settings (e.g. making the cursor wider) when there is more
+   than one.
