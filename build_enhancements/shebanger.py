@@ -1,5 +1,8 @@
 import sublime, sublime_plugin
 
+from Default.exec import ExecCommand
+
+
 # Related reading:
 #     http://stackoverflow.com/questions/39606221/how-to-create-sublime-text-3-build-system-which-reads-shebang
 
@@ -15,14 +18,15 @@ import sublime, sublime_plugin
 # {
 #     // WindowCommand to execute for this build
 #     "target": "shebanger",
+#     "cancel": { "kill": true },
 #
-#     // Use this when there is no shebang
+#     // Default program for when there is no shebang
 #     "interpreter_default": "python",
 #
-#     // Args to pass to the interpreter
+#     // Default arguments for when there is no shebang or it has no args
 #     "interpreter_args": ["-u"],
 #
-#     "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+#     "file_regex": "^[ ]*File \"(...*?)\", line([0-9]*)",
 #     "selector": "source.python",
 #
 #     "env": {"PYTHONIOENCODING": "utf-8"},
@@ -36,32 +40,31 @@ import sublime, sublime_plugin
 #     ]
 # }
 
-class ShebangerCommand(sublime_plugin.WindowCommand):
+class ShebangerCommand(ExecCommand):
     """
     Command to be used as the "target" option in a build system. Based on a
     customized build system, this will modify the version of python used to
-    the one listed in the shebang line at the start of the script (if any).
+    the one listed in the shebang line at the start of the script(if any).
     """
-    def parseShebang (self, filename):
+    def parse_shebang(self, filename):
         with open(filename, 'r') as handle:
-            shebang = handle.readline ().strip ().split (' ', 1)[0]
-        if shebang.startswith ("#!"):
-            return shebang[2:]
-        return None
-
-    def createExecDict(self, sourceDict):
-        current_file = self.window.active_view ().file_name()
-        args = dict (sourceDict)
-
-        interpreter = args.pop ("interpreter_default", "python")
-        exec_args = args.pop ("interpreter_args", ["-u"])
-        shebang = self.parseShebang (current_file)
-
-        args["shell_cmd"] = "{} {} \"{}\"".format (shebang or interpreter,
-                                                   " ".join (exec_args),
-                                                   current_file)
-
-        return args
+            shebang = handle.readline().strip().split(' ', 1)
+        if shebang[0].startswith("#!"):
+            return (shebang[0][2:],
+                    shebang[1].split(' ') if len(shebang) > 1 else [])
+        return None, None
 
     def run(self, **kwargs):
-        self.window.run_command ("exec", self.createExecDict (kwargs))
+        current_file = self.window.active_view().file_name() or ''
+
+        # Capture the default program and arguments from the build; used in
+        # case the current file doesn't have a shebang.
+        def_prog = kwargs.pop("interpreter_default", "python")
+        def_args = kwargs.pop("interpreter_args", ["-u"])
+
+        # Parse the file to get the program and arguments.
+        prog, prog_args = self.parse_shebang(current_file)
+
+        kwargs["shell_cmd"] = "{} {} \"{}\"".format(
+            prog or def_prog, " ".join(prog_args or def_args), current_file)
+        super().run(**kwargs)

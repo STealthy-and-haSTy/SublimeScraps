@@ -1,5 +1,8 @@
 import sublime, sublime_plugin
 
+from Default.exec import ExecCommand
+
+
 # Related reading:
 #     http://stackoverflow.com/questions/41768673/let-sublime-choose-among-two-similar-build-systems
 
@@ -12,13 +15,15 @@ import sublime, sublime_plugin
 # python, operate for different languages, etc.
 #
 # In order to use this, you would need a build file that looks something like
-# this. Here the important parts are the "target" and the two different
-# interpreters to use.
+# this. Here the important parts are the "target", the two different
+# interpreters to use and that you should inject '\\$python' anywhere you want
+# the Python interpreter to be inserted.
 #
 # {
 #     "target": "python_build",
+#     "cancel": { "kill": true },
 #
-#     "shell_cmd": "python -u \"$file\"",
+#     "shell_cmd": "\\$python -u \"$file\"",
 #     "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 #     "selector": "source.python",
 #
@@ -31,12 +36,13 @@ import sublime, sublime_plugin
 #     [
 #         {
 #             "name": "Syntax Check",
-#             "shell_cmd": "python -m py_compile \"${file}\"",
+#             "shell_cmd": "\\$python -m py_compile \"${file}\"",
 #         }
 #     ]
 # }
 
-class PythonBuildCommand(sublime_plugin.WindowCommand):
+
+class PythonBuildCommand(ExecCommand):
     """
     A take on shebanger.py. Here the build system file explictly specifies what
     to use for the executable for two different versions of python and the
@@ -45,21 +51,18 @@ class PythonBuildCommand(sublime_plugin.WindowCommand):
     """
     def detect_version(self, filename, python32, python64):
         with open(filename, 'r') as handle:
-            line = handle.readline ()
-        return python64 if (line.startswith ("#") and "64" in line) else python32
-
-    def execArgs(self, sourceArgs):
-        current_file = self.window.active_view ().file_name ()
-        args = dict (sourceArgs)
-
-        python32 = args.pop ("python32", "python")
-        python64 = args.pop ("python64", "python")
-        selected = self.detect_version (current_file, python32, python64)
-
-        if "shell_cmd" in args:
-            args["shell_cmd"] = args["shell_cmd"].replace ("python", selected)
-
-        return args
+            line = handle.readline()
+        return python64 if(line.startswith("#") and "64" in line) else python32
 
     def run(self, **kwargs):
-        self.window.run_command ("exec", self.execArgs (kwargs))
+        current_file = self.window.active_view().file_name() or ''
+
+        python32 = kwargs.pop("python32", "python")
+        python64 = kwargs.pop("python64", "python")
+
+        variables = {
+            'python': self.detect_version(current_file, python32, python64)
+        }
+
+        kwargs = sublime.expand_variables(kwargs, variables)
+        super().run(**kwargs)

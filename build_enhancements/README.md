@@ -30,10 +30,29 @@ on its specific use.
    could be used to insert some project specific information easily into a
    build, for example.
 
+ * [timeout_exec.py](timeout_exec.py) is a custom build target that is capable
+   of cancelling a build automatically if it doesn't finish within a configured
+   time delay. There are multiple versions here depending on which version of
+   Sublime Text you're running.
+
+ * [makefile_build.py](makefile_build.py) is a custom build target that allows
+   you to select the Makefile to use from within your project by choosing it
+   from the context menu in the side bar. If you use a project structure with
+   multiple Makefiles in it for different aspects, you may find this useful.
+
  * [python_build.py](python_build.py) is an example of configuring a build
    system to have two different commands (here 32-bit and 64-bit versions of
    python) and having the first line in the file have text which tells the
    build which version to use.
+
+ * [relative_python_exec.py](relative_python_exec.py) is a Pythion centric build
+   system that allows you to execute a Python file based on it's module name
+   instead of on it's file name.
+
+ * [redirect_exec.py](redirect_exec.py) is an example of a custom build target
+   that generates a temporary file based on other information (in this case the
+   contents of the current file) and then executing it. It also demonstrates
+   detecting with a build has finished.
 
  * [shebanger.py](shebanger.py) is similar to **python_build.py** in that it
    determines what to use to perform the build from the first line of the
