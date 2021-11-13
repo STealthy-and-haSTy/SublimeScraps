@@ -171,7 +171,8 @@ of each file for more information on full usage.
 
  * [selection_to_top.py](selection_to_top.py) is a quick little command I made
    for making it easier to illustrate code samples in my YouTube videos; it
-   scrolls the current file so that the cursor is the first line in the view.
+   scrolls the current file so that the cursor is the first line in the
+   viewport.
 
  * [pattern_navigate.py](pattern_navigate.py) is a simple command that allows
    you to easily jump to the next or previous location of a specified search

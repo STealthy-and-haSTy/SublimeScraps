@@ -32,10 +32,10 @@ class UpdateLastEditedDateCommand(sublime_plugin.TextCommand):
     header, and if found update it to include the current date and time
     as formatted by the given date format.
     """
-    def run(self, edit, hdr="Last Edited: ", fmt="%d %b %Y %I:%M%p"):
-        span = self.view.find(f'{hdr}.*$', 0)
+    def run(self, edit, header="Last Edited: ", format="%d %b %Y %I:%M%p"):
+        span = self.view.find(f'{header}.*$', 0)
         if span is not None:
-            self.view.replace(edit, span, f"{hdr}{time.strftime(fmt)}")
+            self.view.replace(edit, span, f"{header}{time.strftime(format)}")
 
 
 class UpdateLastSavedEvent(sublime_plugin.EventListener):

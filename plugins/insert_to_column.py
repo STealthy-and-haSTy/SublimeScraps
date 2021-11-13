@@ -8,7 +8,7 @@ from bisect import bisect_left
 #
 # This implements an insert_to_column command that will insert whitespace at
 # every cursor that exists to move the cursor to the column specified. When
-# this is 0, the next closest ruler is used, with colunn 72 being a fallback
+# this is 0, the next closest ruler is used, with column 72 being a fallback
 # if there are no rulers that match.
 #
 # This could be used to add whitespace to the ends of lines, such as to align

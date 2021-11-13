@@ -7,7 +7,7 @@ import functools
 #     https://forum.sublimetext.com/t/difference-when-multiple-selection/58087
 #
 # This simple plugin makes it easier to visualize when there is more than one
-# cursor active in the current file (particuarly when one or more of them may
+# cursor active in the current file (particularly when one or more of them may
 # be outside the visible area of the file) by changing the state of the cursor.
 #
 # In this example the cursor is made wider when there is more than one, but

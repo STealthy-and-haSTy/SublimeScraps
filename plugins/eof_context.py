@@ -39,7 +39,7 @@ class EndOfFileContextListener(sublime_plugin.EventListener):
         # NOTE: the whole selection must appear inside the last line for this
         # to match; a selection that is only partially in the last line is
         # not contained in the last line.
-        sels = [last_line.contains(s) for s in view.sel()]
+        sels = (last_line.contains(s) for s in view.sel())
 
         # Depending on match_all, indicate if one or all selections are on
         # the last line

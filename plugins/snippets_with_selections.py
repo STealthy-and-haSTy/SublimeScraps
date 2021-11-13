@@ -4,10 +4,10 @@ import sublime_plugin
 # Related Reading:
 #     https://forum.sublimetext.com/t/parse-two-selected-lines-in-html-tags/56162
 
-# This plugin implementd a version of the insert_snippet command that provides
+# This plugin implements a version of the insert_snippet command that provides
 # access to each individual selection as numbered variables, such as
 # SELECTION_1, SELECTION_2, and so on. This allows an expansion to include
-# multuple selections in the replacement.
+# multiple selections in the replacement.
 
 class InsertSnippetWithSelectionsCommand(sublime_plugin.TextCommand):
     """
