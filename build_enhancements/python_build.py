@@ -52,7 +52,7 @@ class PythonBuildCommand(ExecCommand):
     def detect_version(self, filename, python32, python64):
         with open(filename, 'r') as handle:
             line = handle.readline()
-        return python64 if(line.startswith("#") and "64" in line) else python32
+        return python64 if (line.startswith ("#") and "64" in line) else python32
 
     def run(self, **kwargs):
         current_file = self.window.active_view().file_name() or ''

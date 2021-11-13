@@ -34,7 +34,7 @@ from Default.exec import ExecCommand
 #
 # In use, your build system would use the two new variables to set up how the
 # build should execute. An example of that based on the Makefile.sublime-build
-# file that ships with Sublime is the following. It executes make telling it
+# file that ships with Sublime is the following. It executes 'make' telling it
 # what Makefile to use, and also uses the Makefile location to set the working
 # directory as appropriate.
 #
@@ -62,7 +62,7 @@ from Default.exec import ExecCommand
 
 def _get_project_settings(window):
     """
-    Get the project specific settinsg data for the provided window; this will
+    Get the project specific settings data for the provided window; this will
     work for any window since all windows carry project data.
     """
     project_data = window.project_data()

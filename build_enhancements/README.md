@@ -45,14 +45,14 @@ on its specific use.
    python) and having the first line in the file have text which tells the
    build which version to use.
 
- * [relative_python_exec.py](relative_python_exec.py) is a Pythion centric build
+ * [relative_python_exec.py](relative_python_exec.py) is a Python centric build
    system that allows you to execute a Python file based on it's module name
-   instead of on it's file name.
+   instead of it's file name.
 
  * [redirect_exec.py](redirect_exec.py) is an example of a custom build target
    that generates a temporary file based on other information (in this case the
-   contents of the current file) and then executing it. It also demonstrates
-   detecting with a build has finished.
+   contents of the current file) and then executes it. It also demonstrates
+   detecting when a build has finished.
 
  * [shebanger.py](shebanger.py) is similar to **python_build.py** in that it
    determines what to use to perform the build from the first line of the

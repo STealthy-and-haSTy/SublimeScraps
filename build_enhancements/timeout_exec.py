@@ -34,7 +34,7 @@ from Default.exec import ExecCommand
 class TimeoutExecCommand(ExecCommand):
     """
     This is a custom build target which can optionally self cancel a build if
-    it runs more than a configurable amount of time.
+    it runs for more than a configurable amount of time.
 
     This version will only work in Sublime Text 4.
     """

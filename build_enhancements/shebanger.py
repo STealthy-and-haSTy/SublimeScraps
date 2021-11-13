@@ -44,7 +44,7 @@ class ShebangerCommand(ExecCommand):
     """
     Command to be used as the "target" option in a build system. Based on a
     customized build system, this will modify the version of python used to
-    the one listed in the shebang line at the start of the script(if any).
+    the one listed in the shebang line at the start of the script (if any).
     """
     def parse_shebang(self, filename):
         with open(filename, 'r') as handle:
