@@ -1,5 +1,7 @@
 import sublime
 import sublime_plugin
+
+import re
 import time
 
 # Related Reading:
@@ -33,7 +35,7 @@ class UpdateLastEditedDateCommand(sublime_plugin.TextCommand):
     as formatted by the given date format.
     """
     def run(self, edit, header="Last Edited: ", format="%d %b %Y %I:%M%p"):
-        span = self.view.find(f'{header}.*$', 0)
+        span = self.view.find(f'{re.escape(header)}.*$', 0)
         if span is not None:
             self.view.replace(edit, span, f"{header}{time.strftime(format)}")
 
