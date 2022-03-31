@@ -191,3 +191,8 @@ of each file for more information on full usage.
    visibly detect when there is more than one active cursor in the current file
    by changing cursor settings (e.g. making the cursor wider) when there is more
    than one.
+
+ * [reversed_selection_listener.py](reversed_selection_listener.py) is a sample
+   of an event listener that illustrates how to listen for a custom key context
+   in order to make any custom key binding you like. This sample allows you to
+   set key bindings to only be active when the selection is "Reversed".
