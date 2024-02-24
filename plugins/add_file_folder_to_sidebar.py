@@ -20,7 +20,7 @@ import os
 # plugin will use the native plugin API instead.
 #
 # To use the plugin from the context menu, create a file named
-# Context.sublime- menu in your User package and give it the following content
+# Context.sublime-menu in your User package and give it the following content
 # (or add the command to an existing file, if you have one).
 #
 # [
@@ -37,7 +37,12 @@ import os
 # you have the location for this in your PATH, this can just be the name of the
 # executable; otherwise it needs to be a fully qualified path to the
 # executable.
+#
+# Note that this is only required if you use Sublime Text 2. If you are using
+# Sublime Text 3 or later, this will be ignored because the plugin API can do
+# the work directly.
 _subl_path = "/home/tmartin/local/sublime_text_2_2221/sublime_text"
+
 
 def run_subl(path):
     """
