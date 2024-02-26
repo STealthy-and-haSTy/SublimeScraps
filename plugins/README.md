@@ -24,6 +24,11 @@ of each file for more information on full usage.
 
 ### What they do
 
+ * [add_file_folder_to_sidebar.py](add_file_folder_to_sidebar.py) is a plugin
+   that was first written in an answer on Stack Overflow in response to a
+   question about adding the path of the current file to the side bar without
+   having to go through a file dialog.
+
  * [clear_console.py](clear_console.py) is a simple plugin that implements a
    command that lets you clear the Sublime Text console. This is done by
    manipulating the setting that controls how much history can be kept in the
